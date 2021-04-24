@@ -1,12 +1,12 @@
 <template>
   <div class="dashboard-editor-container">
     <div class=" clearfix">
-      <pan-thumb :image="avatar" style="float: left">
+      <pan-thumb :image="user.avatar" style="float: left">
         你的角色:
         <span v-for="item in roles" :key="item" class="pan-info-roles">{{ item }}</span>
       </pan-thumb>
       <div class="info-container">
-        <span class="display_name">{{ name }}</span>
+        <span class="display_name">{{ user.username }}</span>
         <span style="font-size:20px;padding-top:20px;display:inline-block;">首页面板</span>
       </div>
     </div>
@@ -30,8 +30,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'name',
-      'avatar',
+      'user',
       'roles'
     ])
   }

@@ -60,7 +60,7 @@ export function toThousandFilter(num) {
 }
 
 /**
- * Upper case first char
+ * 首字母大写
  * @param {String} string
  */
 export function uppercaseFirst(string) {

@@ -26,18 +26,18 @@ router.beforeEach(async(to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
-      // 确定用户是否已通过getInfo获得其权限角色
-      const hasRoles = store.getters.roles && store.getters.roles.length > 0
-      if (hasRoles) {
+      // 确定用户是否已通过getInfo获得用户信息
+      const hasGetUserInfo = store.getters.hasGetUserInfo
+
+      if (hasGetUserInfo) {
         next()
       } else {
         try {
-          // get user info
-          // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
-          const { roles } = await store.dispatch('user/getInfo')
+          // 获取用户信息
+          const { permissionInfo } = await store.dispatch('user/getInfo')
 
-          // 基于角色生成路由
-          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+          // 基于权限生成路由
+          const accessRoutes = await store.dispatch('permission/generateRoutes', permissionInfo.stringPermissions)
 
           // 动态添加路由
           router.addRoutes(accessRoutes)

@@ -1,30 +1,34 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getInfo } from '@/api/adminUser'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
+import defaultSettings from '@/settings.js'
 
 const state = {
   token: getToken(),
-  name: '',
-  avatar: '',
-  introduction: '',
-  roles: []
+  hasGetUserInfo: false,
+  info: {},
+  roles: [],
+  permissions: []
 }
 
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
   },
-  SET_INTRODUCTION: (state, introduction) => {
-    state.introduction = introduction
-  },
-  SET_NAME: (state, name) => {
-    state.name = name
-  },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
+  SET_USER: (state, info) => {
+    state.info = info
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_USERNAME: (state, username) => {
+    state.info.username = username
+  },
+  SET_PERMISSIONS: (state, permissions) => {
+    state.permissions = permissions
+  },
+  SET_HAS_GET_USERINFO: (state, flag) => {
+    state.hasGetUserInfo = flag
   }
 }
 
@@ -45,27 +49,18 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit, state }) {
+  getInfo({ commit }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
-
-        if (!data) {
-          reject('Verification failed, please Login again.')
+      getInfo().then(response => {
+        const { user, permissionInfo } = response.data
+        if (!user.avatar) { // 设置默认头像
+          user.avatar = defaultSettings.avatar
         }
-
-        const { roles, name, avatar, introduction } = data
-
-        // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
-        }
-
-        commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        commit('SET_INTRODUCTION', introduction)
-        resolve(data)
+        commit('SET_HAS_GET_USERINFO', true)
+        commit('SET_USER', user)
+        commit('SET_ROLES', permissionInfo.roles)
+        commit('SET_PERMISSIONS', permissionInfo.stringPermissions)
+        resolve(response.data)
       }).catch(error => {
         reject(error)
       })
@@ -73,11 +68,14 @@ const actions = {
   },
 
   // user logout
-  logout({ commit, state, dispatch }) {
+  logout({ commit, dispatch }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
+      logout().then(() => {
         commit('SET_TOKEN', '')
+        commit('SET_HAS_GET_USERINFO', false)
+        commit('SET_USER', {})
         commit('SET_ROLES', [])
+        commit('SET_PERMISSIONS', [])
         removeToken()
         resetRouter()
 
@@ -102,23 +100,20 @@ const actions = {
     })
   },
 
-  // dynamically modify permissions
+  // update username
+  updateUsername({ commit }, username) {
+    commit('SET_USERNAME', username)
+  },
+
+  // 动态修改权限
   async changeRoles({ commit, dispatch }, role) {
-    const token = role + '-token'
-
-    commit('SET_TOKEN', token)
-    setToken(token)
-
-    const { roles } = await dispatch('getInfo')
+    const { permissionInfo } = await dispatch('user/getInfo')
 
     resetRouter()
-
-    // generate accessible routes map based on roles
-    const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })
-    // dynamically add accessible routes
+    const accessRoutes = await dispatch('permission/generateRoutes', permissionInfo.stringPermissions, { root: true })
     router.addRoutes(accessRoutes)
 
-    // reset visited views and cached views
+    // 重置访问的视图并且缓存的视图
     dispatch('tagsView/delAllViews', null, { root: true })
   }
 }

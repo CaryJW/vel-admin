@@ -41,6 +41,7 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
+    noCheckPermission: true,
     children: [
       {
         path: 'dashboard',
@@ -74,31 +75,26 @@ export const asyncRoutes = [
   {
     path: '/permission',
     component: Layout,
-    redirect: '/permission/page',
+    // redirect: '/permission/admin-user',
     alwaysShow: true,
     name: '权限管理',
     meta: {
       title: '权限管理',
-      icon: 'lock',
-      roles: ['admin']
+      icon: 'lock'
     },
     children: [
       {
-        path: 'page',
-        component: () => import('@/views/permission/page'),
-        name: '页面权限',
+        path: 'admin-user',
+        component: () => import('@/views/permission/admin-user'),
+        name: '管理员用户',
         meta: {
-          title: '页面权限',
-          roles: ['admin']
-        }
-      },
-      {
-        path: 'directive',
-        component: () => import('@/views/permission/directive'),
-        name: '鉴权',
-        meta: {
-          title: '鉴权'
-          // if do not set roles, means: this page does not require permission
+          title: '管理员用户',
+          permission: [
+            'adminUser::list',
+            'adminUser::add',
+            'adminUser::update',
+            'password::update'
+          ]
         }
       },
       {
@@ -107,7 +103,11 @@ export const asyncRoutes = [
         name: '角色权限',
         meta: {
           title: '角色权限',
-          roles: ['admin']
+          permission: [
+            'role::list',
+            'role::add',
+            'role::update'
+          ]
         }
       }
     ]
@@ -121,8 +121,7 @@ export const asyncRoutes = [
         path: 'complex-table',
         component: () => import('@/views/table/complex-table'),
         name: '表格',
-        meta: { title: '表格' },
-        roles: ['admin', 'editor']
+        meta: { title: '表格' }
       }
     ]
   },

@@ -267,11 +267,9 @@ export function debounce(func, wait, immediate) {
 }
 
 /**
- * This is just a simple version of deep copy
- * Has a lot of edge cases bug
- * If you want to use a perfect deep copy, use lodash's _.cloneDeep
- * @param {Object} source
- * @returns {Object}
+ * 深拷贝
+ * @param source
+ * @returns {*[]}
  */
 export function deepClone(source) {
   if (!source && typeof source !== 'object') {
@@ -286,6 +284,20 @@ export function deepClone(source) {
     }
   })
   return targetObj
+}
+
+/**
+ * 复制属性
+ * @param source
+ * @param target
+ * @param ignoreProperties
+ */
+export function copyProperties(source, target, ...ignoreProperties) {
+  Object.keys(source).forEach(key => {
+    if (!ignoreProperties.includes(key) && target[key] !== 'undefined') {
+      source[key] = target[key]
+    }
+  })
 }
 
 /**
@@ -334,4 +346,37 @@ export function removeClass(ele, cls) {
     const reg = new RegExp('(\\s|^)' + cls + '(\\s|$)')
     ele.className = ele.className.replace(reg, ' ')
   }
+}
+
+/**
+ * obj转下拉框数组
+ * @param object
+ * @returns {[]}
+ */
+export function objToSelectArr(object) {
+  const arr = []
+  Object.keys(object).forEach(k => {
+    const kn = Number(k)
+    const obj = {
+      key: !isNaN(kn) ? kn : k,
+      value: object[k]
+    }
+    arr.push(obj)
+  })
+  return arr
+}
+
+/**
+ * 数组对象转指定key/value的map
+ * @param arr
+ * @param key
+ * @param value
+ * @returns {Map<any, any>}
+ */
+export function objArrToMap(arr, key, value) {
+  const map = new Map()
+  arr.forEach(a => {
+    map.set(a[key], a[value])
+  })
+  return map
 }

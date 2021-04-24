@@ -21,6 +21,9 @@ function checkPermission(el, binding) {
   }
 }
 
+/**
+ * 判断权限动态渲染，用于一些动态element-ui组件等动态组件
+ */
 export default {
   inserted(el, binding) {
     checkPermission(el, binding)

@@ -1,31 +1,33 @@
 import { asyncRoutes, constantRoutes } from '@/router'
 
 /**
- * Use meta.role to determine if the current user has permission
- * @param roles
+ * 判断当前路由是否拥有指定权限
+ * @param permissions
  * @param route
+ * @returns {boolean|*}
  */
-function hasPermission(roles, route) {
-  if (route.meta && route.meta.roles) {
-    return roles.some(role => route.meta.roles.includes(role))
+function hasPermission(permissions, route) {
+  if (route.meta && route.meta.permission) {
+    return permissions.some(perm => route.meta.permission.includes(perm))
   } else {
     return true
   }
 }
 
 /**
- * Filter asynchronous routing tables by recursion
- * @param routes asyncRoutes
- * @param roles
+ * 过滤没有对应权限的路由
+ * @param routes
+ * @param permissions
+ * @returns {[]}
  */
-export function filterAsyncRoutes(routes, roles) {
+export function filterAsyncRoutes(routes, permissions) {
   const res = []
 
   routes.forEach(route => {
     const tmp = { ...route }
-    if (hasPermission(roles, tmp)) {
+    if (hasPermission(permissions, tmp)) {
       if (tmp.children) {
-        tmp.children = filterAsyncRoutes(tmp.children, roles)
+        tmp.children = filterAsyncRoutes(tmp.children, permissions)
       }
       res.push(tmp)
     }
@@ -47,14 +49,9 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({ commit }, roles) {
+  generateRoutes({ commit }, permissions) {
     return new Promise(resolve => {
-      let accessedRoutes
-      if (roles.includes('admin')) {
-        accessedRoutes = asyncRoutes || []
-      } else {
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-      }
+      const accessedRoutes = filterAsyncRoutes(asyncRoutes, permissions)
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)
     })
