@@ -73,19 +73,19 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   {
-    path: '/permission',
+    path: '/sys',
     component: Layout,
-    // redirect: '/permission/admin-user',
+    // redirect: '/sys/admin-user',
     alwaysShow: true,
-    name: '权限管理',
+    name: '系统管理',
     meta: {
-      title: '权限管理',
-      icon: 'lock'
+      title: '系统管理',
+      icon: 'el-icon-setting'
     },
     children: [
       {
         path: 'admin-user',
-        component: () => import('@/views/permission/admin-user'),
+        component: () => import('@/views/sys/admin-user'),
         name: '管理员用户',
         meta: {
           title: '管理员用户',
@@ -99,7 +99,7 @@ export const asyncRoutes = [
       },
       {
         path: 'role',
-        component: () => import('@/views/permission/role'),
+        component: () => import('@/views/sys/role'),
         name: '角色权限',
         meta: {
           title: '角色权限',
@@ -109,6 +109,25 @@ export const asyncRoutes = [
             'role::update'
           ]
         }
+      }
+    ]
+  },
+
+  {
+    path: '/monitor',
+    component: Layout,
+    alwaysShow: true,
+    name: '系统监控',
+    meta: {
+      title: '系统监控',
+      icon: 'el-icon-sunrise'
+    },
+    children: [
+      {
+        path: 'login-log',
+        component: () => import('@/views/monitor/login-log'),
+        name: '登录日志',
+        meta: { title: '登录日志' }
       }
     ]
   },
