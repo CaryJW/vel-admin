@@ -128,6 +128,12 @@ export const asyncRoutes = [
         component: () => import('@/views/monitor/login-log'),
         name: '登录日志',
         meta: { title: '登录日志' }
+      },
+      {
+        path: 'online-user',
+        component: () => import('@/views/monitor/online-user'),
+        name: '在线用户',
+        meta: { title: '在线用户' }
       }
     ]
   },

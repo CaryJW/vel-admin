@@ -2,15 +2,15 @@ import request from '@/utils/request'
 
 export function fetchList(query) {
   return request({
-    url: '/login-log/list',
+    url: '/active-user/list',
     method: 'get',
     params: query
   })
 }
 
-export function del(id) {
+export function kickout(id) {
   return request({
-    url: '/login-log/delete/' + id,
+    url: '/active-user/kickout/' + id,
     method: 'get'
   })
 }

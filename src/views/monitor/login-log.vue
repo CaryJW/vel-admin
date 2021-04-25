@@ -6,7 +6,7 @@
           <el-input v-model="listQuery.username" placeholder="用户名" class="filter-item" @keyup.enter.native="handleFilter" />
         </el-col>
 
-        <el-col :span="6">
+        <el-col :span="8">
           <el-date-picker
             v-model="loginTime"
             type="daterange"
@@ -166,7 +166,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        del({ id: id }).then(() => {
+        del(id).then(() => {
           this.$notify({
             title: 'Success',
             message: '删除成功',
