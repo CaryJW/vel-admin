@@ -14,6 +14,12 @@ class Constants {
     0: '离线',
     1: '在线'
   };
+
+  // 系统日志类型
+  SYS_LOG_TYPE_MAP = {
+    0: '后台',
+    1: 'API'
+  };
 }
 
 export default new Constants()

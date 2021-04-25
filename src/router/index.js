@@ -134,6 +134,12 @@ export const asyncRoutes = [
         component: () => import('@/views/monitor/online-user'),
         name: '在线用户',
         meta: { title: '在线用户' }
+      },
+      {
+        path: 'sys-log',
+        component: () => import('@/views/monitor/sys-log'),
+        name: '系统日志',
+        meta: { title: '系统日志' }
       }
     ]
   },
