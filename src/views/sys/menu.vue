@@ -15,54 +15,28 @@
             :data="treeData"
             :props="defaultProps"
             :filter-node-method="filterNode"
-            show-checkbox
             default-expand-all
             node-key="perms"
             @node-contextmenu="handleNodeContextMenu"
-          >
-            <span slot-scope="{ node, data }" class="custom-tree-node">
-              <span>{{ node.label }}</span>
-              <span>
-                <el-button
-                  type="text"
-                  size="mini"
-                  @click="() => append(data)"
-                >
-                  Append
-                </el-button>
-                <el-button
-                  type="text"
-                  size="mini"
-                  @click="() => remove(node, data)"
-                >
-                  Delete
-                </el-button>
-              </span>
-            </span>
-          </el-tree>
-          <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
-            <li>添加</li>
-            <li>删除</li>
-          </ul>
+            @node-click="handleNodeClick"
+          />
         </el-card>
       </el-col>
       <el-col :span="12">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span>新增菜单</span>
+            <span> {{ type==='create'?'新增':'编辑' }}菜单</span>
+            <el-button style="float: right; padding: 3px 0" type="text" @click="handleCreateMenu(null)">添加父权限</el-button>
           </div>
           <el-form ref="perm" :model="formData" :rules="rules" label-width="80px" label-position="right">
+            <el-form-item label="id" prop="id" hidden>
+              <el-input v-model="formData.id" />
+            </el-form-item>
             <el-form-item label="pid" prop="pid">
               <el-input v-model="formData.pid" disabled @contextmenu.prevent.native="handleNodeContextMenu($event,{})" />
             </el-form-item>
             <el-form-item label="页面名称" prop="name">
               <el-input v-model="formData.name" placeholder="请输入页面名称" />
-            </el-form-item>
-            <el-form-item label="url路径" prop="path">
-              <el-input v-model="formData.path" placeholder="url路径" />
-            </el-form-item>
-            <el-form-item label="组件" prop="component">
-              <el-input v-model="formData.component" placeholder="请输入组件" />
             </el-form-item>
             <el-form-item label="权限标识" prop="perms">
               <el-input v-model="formData.perms" placeholder="请输入权限标识" />
@@ -80,29 +54,51 @@
               <el-form-item label="icon" prop="icon">
                 <el-input v-model="formData.icon" placeholder="请输入icon" />
               </el-form-item>
+              <el-form-item label="url路径" prop="path">
+                <el-input v-model="formData.path" placeholder="url路径" />
+              </el-form-item>
+              <el-form-item label="组件" prop="component">
+                <el-input v-model="formData.component" placeholder="请输入组件" />
+              </el-form-item>
             </template>
             <el-form-item label="排序" prop="sort">
               <el-input v-model="formData.sort" placeholder="请输入排序" />
             </el-form-item>
           </el-form>
           <div style="text-align:right;">
-            <el-button type="primary" :loading="submitLoading" @click="createDate">确认</el-button>
+            <el-button type="primary" :loading="submitLoading" @click="type==='create'?createData():updateData()">确认</el-button>
           </div>
         </el-card>
       </el-col>
     </el-row>
+
+    <ul v-show="visible" :style="{left:left + 'px',top:top + 'px'}" class="contextmenu">
+      <li @click="handleCreateMenu(selectedNode)">添加</li>
+      <li @click="handleDeleteMenu(selectedNode.id)">删除</li>
+    </ul>
   </div>
 </template>
 
 <script>
 import { getTree } from '@/api/permission'
 import constants from '@/libs/constants'
+import { copyProperties } from '@/utils'
+import { add, update, del } from '@/api/permission'
 
 export default {
   name: 'Menu',
   data() {
+    const validateCheckTitle = (rule, value, callback) => {
+      if (this.formData.type === constants.MENU_NAVBAR && value === '') {
+        callback(new Error('菜单名称不能为空'))
+      } else {
+        callback()
+      }
+    }
+
     return {
       constants,
+      type: 'create',
       treeLoading: false,
       filterText: '',
       visible: false,
@@ -124,10 +120,15 @@ export default {
         path: '',
         perms: '',
         type: constants.MENU_NAVBAR,
-        sort: ''
+        sort: 0
       },
       rules: {
-
+        name: [{ required: true, message: '页面名称不能为空', trigger: 'blur' }],
+        path: [{ required: true, message: '路径不能为空', trigger: 'blur' }],
+        component: [{ required: true, message: '组件不能为空', trigger: 'blur' }],
+        perms: [{ required: true, message: '权限标识不能为空', trigger: 'blur' }],
+        title: [{ validator: validateCheckTitle, trigger: 'blur' }],
+        sort: [{ type: 'number', message: '排序必须为数字值', trigger: 'blur' }]
       },
       submitLoading: false
     }
@@ -135,6 +136,13 @@ export default {
   watch: {
     filterText(val) {
       this.$refs.tree.filter(val)
+    },
+    visible(value) {
+      if (value) {
+        document.body.addEventListener('click', this.closeMenu)
+      } else {
+        document.body.removeEventListener('click', this.closeMenu)
+      }
     }
   },
   created() {
@@ -166,17 +174,94 @@ export default {
         this.left = left
       }
 
-      this.top = e.clientY
-      // this.top = e.offsetY
-      console.log(e.clientY)
+      const offsetTop = this.$el.getBoundingClientRect().top // container margin top
+      this.top = e.clientY - offsetTop
+
       this.visible = true
       this.selectedNode = data
     },
-    handleCreateMenu(e) {
-
+    closeMenu() {
+      this.visible = false
+      this.top = 0
+      this.left = 0
+      this.selectedNode = {}
     },
-    createDate() {
+    handleNodeClick(data) {
+      this.type = 'update'
+      copyProperties(data, this.formData)
 
+      this.closeMenu()
+    },
+    handleCreateMenu(data) {
+      this.type = 'create'
+      this.$refs.perm.resetFields()
+      if (data === null) {
+        this.formData.pid = 0
+      } else {
+        this.formData.pid = data.id
+      }
+    },
+    handleDeleteMenu(id) {
+      this.$confirm('确认删除？', 'Warning', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        del(id).then(() => {
+          this.$notify({
+            title: 'Success',
+            message: '删除成功',
+            type: 'success',
+            duration: 2000
+          })
+
+          this.getTreeData()
+        })
+      })
+    },
+    createData() {
+      this.$refs.perm.validate((valid) => {
+        if (valid) {
+          this.submitLoading = true
+          add(this.formData).then(() => {
+            this.submitLoading = false
+
+            this.$notify({
+              title: 'Success',
+              message: '新增成功',
+              type: 'success',
+              duration: 2000
+            })
+
+            this.$refs.perm.resetFields()
+            this.getTreeData()
+          }).catch(() => {
+            this.submitLoading = false
+          })
+        }
+      })
+    },
+    updateData() {
+      this.$refs.perm.validate((valid) => {
+        if (valid) {
+          this.submitLoading = true
+          update(this.formData).then(() => {
+            this.submitLoading = false
+
+            this.$notify({
+              title: 'Success',
+              message: '编辑成功',
+              type: 'success',
+              duration: 2000
+            })
+
+            this.$refs.perm.resetFields()
+            this.getTreeData()
+          }).catch(() => {
+            this.submitLoading = false
+          })
+        }
+      })
     }
   }
 }
@@ -184,6 +269,7 @@ export default {
 
 <style lang="scss" scoped>
 .app-container{
+  position: relative;
 
   .filter-text{
     margin-bottom: 20px;

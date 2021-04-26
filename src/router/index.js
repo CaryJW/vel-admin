@@ -139,20 +139,7 @@ export const constantRoutes = [
 //         meta: { title: '系统日志' }
 //       }
 //     ]
-//   },
-//
-//   {
-//     path: '/table',
-//     component: Layout,
-//     children: [
-//       {
-//         path: 'complex-table',
-//         component: () => import('@/views/table/complex-table'),
-//         name: '表格',
-//         meta: { title: '表格' }
-//       }
-//     ]
-//   },
+//   }
 //
 //   // 404 page must be placed at the end !!!
 //   { path: '*', redirect: '/404', hidden: true }

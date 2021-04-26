@@ -362,7 +362,7 @@ export default {
       this.$nextTick(() => {
         this.$refs['adminUserForm'].resetFields()
 
-        copyProperties(this.formData, row, 'roleIds')
+        copyProperties(row, this.formData, 'roleIds')
         this.formData.roleIds = row.roles ? row.roles.map(o => o.id) : []
       })
     },
@@ -381,6 +381,7 @@ export default {
             })
 
             this.getList()
+            this.$store.dispatch('user/changeRoles')
           }).catch(() => {
             this.createOrUpdateSubmitLoading = false
           })

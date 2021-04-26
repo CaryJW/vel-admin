@@ -106,11 +106,11 @@ const actions = {
   },
 
   // 动态修改权限
-  async changeRoles({ commit, dispatch }, role) {
-    await dispatch('user/getInfo')
+  async changeRoles({ dispatch }) {
+    await dispatch('getInfo')
 
     resetRouter()
-    const accessRoutes = await dispatch('permission/generateRoutes', { root: true })
+    const accessRoutes = await dispatch('permission/generateRoutes', null, { root: true })
     router.addRoutes(accessRoutes)
 
     // 重置访问的视图并且缓存的视图

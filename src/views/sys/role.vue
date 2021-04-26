@@ -64,7 +64,7 @@
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
-    <el-dialog :visible.sync="dialogVisible" :title="dialogType==='add'?'新增':'编辑'">
+    <el-dialog :visible.sync="dialogVisible" :title="dialogType==='create'?'新增':'编辑'">
       <el-form ref="perm" :model="formData" :rules="rules" label-width="80px" label-position="left">
         <el-form-item label="角色名称" prop="roleName">
           <el-input v-model="formData.roleName" prefix-icon="el-icon-user" placeholder="请输入角色名称" />
@@ -77,22 +77,22 @@
             placeholder="请输入角色描述"
           />
         </el-form-item>
-        <el-form-item label="权限" prop="permissionIds">
+        <el-form-item label="权限" prop="permIds">
           <el-tree
             ref="tree"
             v-loading="treeLoading"
-            :check-strictly="false"
+            :check-strictly="checkStrictly"
             :data="treeData"
             :props="defaultProps"
             show-checkbox
             default-expand-all
-            node-key="permission"
+            node-key="id"
           />
         </el-form-item>
       </el-form>
       <div style="text-align:right;">
         <el-button @click="dialogVisible = false">返回</el-button>
-        <el-button type="primary" :loading="createOrUpdateSubmitLoading" @click="dialogType==='add'?createDate():updateDate()">确认</el-button>
+        <el-button type="primary" :loading="createOrUpdateSubmitLoading" @click="dialogType==='create'?createData():updateData()">确认</el-button>
       </div>
     </el-dialog>
   </div>
@@ -102,9 +102,8 @@
 import { fetchList, addRole, updateRole } from '@/api/role'
 import waves from '@/directive/waves'
 import Pagination from '@/components/Pagination'
-import { deepClone, copyProperties, objArrToMap } from '@/utils'
-import { asyncRoutes, constantRoutes } from '@/router'
-import { getPermissionList } from '@/api/permission'
+import { copyProperties } from '@/utils'
+import { getTree, rolePerms } from '@/api/permission'
 
 export default {
   name: 'Role',
@@ -123,7 +122,7 @@ export default {
         roleName: ''
       },
       dialogVisible: false,
-      dialogType: 'add',
+      dialogType: 'create',
       defaultProps: {
         children: 'children',
         label: 'name'
@@ -132,22 +131,20 @@ export default {
         id: 0,
         roleName: '',
         remarks: '',
-        permissionIds: []
+        permIds: []
       },
       rules: {
         roleName: [{ required: true, message: '角色名不能为空', trigger: 'blur' }]
       },
+      checkStrictly: false,
       treeLoading: false,
-      permList: [],
-      permMap: {},
-      permIdMap: {},
       treeData: [],
       createOrUpdateSubmitLoading: false
     }
   },
   created() {
     this.getList()
-    this.getPermissionMap()
+    this.getTreeData()
   },
   methods: {
     getList() {
@@ -161,15 +158,11 @@ export default {
         this.listLoading = false
       })
     },
-    getPermissionMap() {
+    getTreeData() {
       this.treeLoading = true
-      getPermissionList().then(response => {
-        const { permList } = response.data
-        this.permList = permList
-        this.permMap = objArrToMap(permList, 'perms', 'permissionName')
-        this.permIdMap = objArrToMap(permList, 'perms', 'id')
-        this.getRoutes()
-
+      getTree().then(response => {
+        const { tree } = response.data
+        this.treeData = tree
         this.treeLoading = false
       })
     },
@@ -197,7 +190,7 @@ export default {
     },
     handleCreate() {
       this.dialogVisible = true
-      this.dialogType = 'add'
+      this.dialogType = 'create'
 
       this.$nextTick(() => {
         this.$refs['perm'].resetFields()
@@ -208,76 +201,27 @@ export default {
       this.dialogVisible = true
       this.dialogType = 'update'
 
-      this.$nextTick(() => {
-        const { permissions } = row
-        const keys = permissions ? permissions.map(o => o.perms) : []
+      this.treeLoading = true
+      this.checkStrictly = true
+      rolePerms(row.id).then(response => {
+        this.treeLoading = false
+        const { permIds } = response.data
+        this.$nextTick(() => {
+          this.$refs['perm'].resetFields()
+          this.$refs['tree'].setCheckedKeys(permIds)
+          this.checkStrictly = false
 
-        this.$refs['perm'].resetFields()
-        this.$refs['tree'].setCheckedKeys(keys)
-
-        copyProperties(this.formData, row)
+          copyProperties(row, this.formData)
+        })
       })
     },
-    getRoutes() {
-      const routeData = deepClone([...constantRoutes, ...asyncRoutes])
-      this.treeData = this.generateRoutes(routeData)
+    getCheckedKeys() {
+      return this.$refs['tree'].getHalfCheckedKeys().concat(this.$refs['tree'].getCheckedKeys())
     },
-    generateRoutes(routes) {
-      const res = []
-
-      for (let route of routes) {
-        if (route.hidden || route.noCheckPermission) { continue }
-
-        const onlyOneShowingChild = this.onlyOneShowingChild(route.children, route)
-
-        if (route.children && onlyOneShowingChild) {
-          route = onlyOneShowingChild
-        }
-
-        const data = {
-          name: route.meta && route.meta.title,
-          children: []
-        }
-
-        if (route.children) {
-          data.children = this.generateRoutes(route.children)
-        }
-
-        if (route.meta && route.meta.permission) {
-          route.meta.permission.map(o => {
-            data.children.push({
-              name: this.permMap.has(o) ? this.permMap.get(o) : o,
-              permission: o
-            })
-          })
-        }
-
-        res.push(data)
-      }
-      return res
-    },
-    onlyOneShowingChild(children = [], parent) {
-      let onlyOneChild = null
-      const showingChildren = children.filter(item => !item.hidden || !item.noCheckPermission)
-
-      // 当只有一个子路由时，默认情况下会显示子路由
-      if (showingChildren.length === 1) {
-        onlyOneChild = showingChildren[0]
-        return onlyOneChild
-      }
-
-      // 如果没有要显示的子路由，则显示父路由
-      if (showingChildren.length === 0) {
-        onlyOneChild = { ... parent, noShowingChildren: true }
-        return onlyOneChild
-      }
-
-      return false
-    },
-    createDate() {
+    createData() {
       this.$refs['perm'].validate((valid) => {
         if (valid) {
-          this.formData.permissionIds = this.getCheckPermissionIds()
+          this.formData.permIds = this.getCheckedKeys()
           this.createOrUpdateSubmitLoading = true
           addRole(this.formData).then(() => {
             this.createOrUpdateSubmitLoading = false
@@ -297,10 +241,10 @@ export default {
         }
       })
     },
-    updateDate() {
+    updateData() {
       this.$refs['perm'].validate((valid) => {
         if (valid) {
-          this.formData.permissionIds = this.getCheckPermissionIds()
+          this.formData.permIds = this.getCheckedKeys()
           this.createOrUpdateSubmitLoading = true
           updateRole(this.formData).then(() => {
             this.createOrUpdateSubmitLoading = false
@@ -314,21 +258,12 @@ export default {
             })
 
             this.getList()
+            this.$store.dispatch('user/changeRoles')
           }).catch(() => {
             this.createOrUpdateSubmitLoading = false
           })
         }
       })
-    },
-    getCheckPermissionIds() {
-      const prems = this.$refs['tree'].getCheckedKeys().filter(o => !!o)
-      const ids = []
-      prems.forEach(p => {
-        if (this.permIdMap.has(p)) {
-          ids.push(this.permIdMap.get(p))
-        }
-      })
-      return ids
     }
   }
 }
