@@ -6,3 +6,17 @@ export function getPermissionList() {
     method: 'get'
   })
 }
+
+export function getTree() {
+  return request({
+    url: '/permission/tree',
+    method: 'get'
+  })
+}
+
+export function getCurrentUserTree() {
+  return request({
+    url: '/permission/current-user',
+    method: 'get'
+  })
+}

@@ -1,36 +1,42 @@
-import { asyncRoutes, constantRoutes } from '@/router'
+import { constantRoutes } from '@/router'
+import { getCurrentUserTree } from '@/api/permission'
+import _import from '@/router/_import'
+import Layout from '@/layout'
+import constants from '@/libs/constants'
 
 /**
- * 判断当前路由是否拥有指定权限
- * @param permissions
- * @param route
- * @returns {boolean|*}
- */
-function hasPermission(permissions, route) {
-  if (route.meta && route.meta.permission) {
-    return permissions.some(perm => route.meta.permission.includes(perm))
-  } else {
-    return true
-  }
-}
-
-/**
- * 过滤没有对应权限的路由
+ * 解析后端传递过来的路由
  * @param routes
- * @param permissions
  * @returns {[]}
  */
-export function filterAsyncRoutes(routes, permissions) {
+export function paresRoutes(routes) {
   const res = []
 
   routes.forEach(route => {
-    const tmp = { ...route }
-    if (hasPermission(permissions, tmp)) {
-      if (tmp.children) {
-        tmp.children = filterAsyncRoutes(tmp.children, permissions)
-      }
-      res.push(tmp)
+    if (route.type === constants.MENU_BUTTON) {
+      return
     }
+
+    const tmp = {}
+    tmp.path = route.path
+    tmp.name = route.name
+    tmp.meta = {}
+    tmp.meta.title = route.title
+    tmp.meta.icon = route.icon
+
+    if (route.component) {
+      if (route.component === 'Layout') {
+        tmp.component = Layout
+      } else {
+        tmp.component = _import(route.component)
+      }
+    }
+
+    if (route.children) {
+      tmp.children = paresRoutes(route.children)
+    }
+
+    res.push(tmp)
   })
 
   return res
@@ -49,11 +55,18 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({ commit }, permissions) {
-    return new Promise(resolve => {
-      const accessedRoutes = filterAsyncRoutes(asyncRoutes, permissions)
-      commit('SET_ROUTES', accessedRoutes)
-      resolve(accessedRoutes)
+  generateRoutes({ commit }) {
+    return new Promise((resolve, reject) => {
+      getCurrentUserTree().then(response => {
+        const { tree } = response.data
+        const accessedRoutes = paresRoutes(tree)
+
+        commit('SET_ROUTES', accessedRoutes)
+
+        resolve(accessedRoutes)
+      }).catch(error => {
+        reject(error)
+      })
     })
   }
 }

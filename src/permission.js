@@ -28,16 +28,15 @@ router.beforeEach(async(to, from, next) => {
     } else {
       // 确定用户是否已通过getInfo获得用户信息
       const hasGetUserInfo = store.getters.hasGetUserInfo
-
       if (hasGetUserInfo) {
         next()
       } else {
         try {
           // 获取用户信息
-          const { permissionInfo } = await store.dispatch('user/getInfo')
+          await store.dispatch('user/getInfo')
 
-          // 基于权限生成路由
-          const accessRoutes = await store.dispatch('permission/generateRoutes', permissionInfo.stringPermissions)
+          // 获取后台菜单
+          const accessRoutes = await store.dispatch('permission/generateRoutes')
 
           // 动态添加路由
           router.addRoutes(accessRoutes)

@@ -60,7 +60,7 @@ const actions = {
         commit('SET_USER', user)
         commit('SET_ROLES', permissionInfo.roles)
         commit('SET_PERMISSIONS', permissionInfo.stringPermissions)
-        resolve(response.data)
+        resolve()
       }).catch(error => {
         reject(error)
       })
@@ -107,10 +107,10 @@ const actions = {
 
   // 动态修改权限
   async changeRoles({ commit, dispatch }, role) {
-    const { permissionInfo } = await dispatch('user/getInfo')
+    await dispatch('user/getInfo')
 
     resetRouter()
-    const accessRoutes = await dispatch('permission/generateRoutes', permissionInfo.stringPermissions, { root: true })
+    const accessRoutes = await dispatch('permission/generateRoutes', { root: true })
     router.addRoutes(accessRoutes)
 
     // 重置访问的视图并且缓存的视图

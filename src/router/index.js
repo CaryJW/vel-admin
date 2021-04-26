@@ -71,95 +71,92 @@ export const constantRoutes = [
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
-export const asyncRoutes = [
-  {
-    path: '/sys',
-    component: Layout,
-    // redirect: '/sys/admin-user',
-    alwaysShow: true,
-    name: '系统管理',
-    meta: {
-      title: '系统管理',
-      icon: 'el-icon-setting'
-    },
-    children: [
-      {
-        path: 'admin-user',
-        component: () => import('@/views/sys/admin-user'),
-        name: '管理员用户',
-        meta: {
-          title: '管理员用户',
-          permission: [
-            'adminUser::list',
-            'adminUser::add',
-            'adminUser::update',
-            'password::update'
-          ]
-        }
-      },
-      {
-        path: 'role',
-        component: () => import('@/views/sys/role'),
-        name: '角色权限',
-        meta: {
-          title: '角色权限',
-          permission: [
-            'role::list',
-            'role::add',
-            'role::update'
-          ]
-        }
-      }
-    ]
-  },
-
-  {
-    path: '/monitor',
-    component: Layout,
-    alwaysShow: true,
-    name: '系统监控',
-    meta: {
-      title: '系统监控',
-      icon: 'el-icon-sunrise'
-    },
-    children: [
-      {
-        path: 'login-log',
-        component: () => import('@/views/monitor/login-log'),
-        name: '登录日志',
-        meta: { title: '登录日志' }
-      },
-      {
-        path: 'online-user',
-        component: () => import('@/views/monitor/online-user'),
-        name: '在线用户',
-        meta: { title: '在线用户' }
-      },
-      {
-        path: 'sys-log',
-        component: () => import('@/views/monitor/sys-log'),
-        name: '系统日志',
-        meta: { title: '系统日志' }
-      }
-    ]
-  },
-
-  {
-    path: '/table',
-    component: Layout,
-    children: [
-      {
-        path: 'complex-table',
-        component: () => import('@/views/table/complex-table'),
-        name: '表格',
-        meta: { title: '表格' }
-      }
-    ]
-  },
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
-]
+// export const asyncRoutes = [
+//   {
+//     path: '/sys',
+//     component: Layout,
+//     name: '系统管理',
+//     meta: {
+//       title: '系统管理',
+//       icon: 'el-icon-setting'
+//     },
+//     children: [
+//       {
+//         path: 'admin-user',
+//         component: () => import('@/views/sys/admin-user'),
+//         name: '管理员用户',
+//         meta: {
+//           title: '管理员用户',
+//           permission: [
+//             'adminUser::list',
+//             'adminUser::add',
+//             'adminUser::update',
+//             'password::update'
+//           ]
+//         }
+//       },
+//       {
+//         path: 'role',
+//         component: () => import('@/views/sys/role'),
+//         name: '角色权限',
+//         meta: {
+//           title: '角色权限',
+//           permission: [
+//             'role::list',
+//             'role::add',
+//             'role::update'
+//           ]
+//         }
+//       }
+//     ]
+//   },
+//
+//   {
+//     path: '/monitor',
+//     component: Layout,
+//     name: '系统监控',
+//     meta: {
+//       title: '系统监控',
+//       icon: 'el-icon-sunrise'
+//     },
+//     children: [
+//       {
+//         path: 'login-log',
+//         component: () => import('@/views/monitor/login-log'),
+//         name: '登录日志',
+//         meta: { title: '登录日志' }
+//       },
+//       {
+//         path: 'online-user',
+//         component: () => import('@/views/monitor/online-user'),
+//         name: '在线用户',
+//         meta: { title: '在线用户' }
+//       },
+//       {
+//         path: 'sys-log',
+//         component: () => import('@/views/monitor/sys-log'),
+//         name: '系统日志',
+//         meta: { title: '系统日志' }
+//       }
+//     ]
+//   },
+//
+//   {
+//     path: '/table',
+//     component: Layout,
+//     children: [
+//       {
+//         path: 'complex-table',
+//         component: () => import('@/views/table/complex-table'),
+//         name: '表格',
+//         meta: { title: '表格' }
+//       }
+//     ]
+//   },
+//
+//   // 404 page must be placed at the end !!!
+//   { path: '*', redirect: '/404', hidden: true }
+// ]
 
 const createRouter = () => new Router({
   scrollBehavior: () => ({ y: 0 }),
