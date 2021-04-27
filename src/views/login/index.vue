@@ -14,7 +14,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="Username"
+          placeholder="用户名"
           name="username"
           type="text"
           tabindex="1"
@@ -32,7 +32,7 @@
             ref="password"
             v-model="loginForm.password"
             :type="passwordType"
-            placeholder="Password"
+            placeholder="密码"
             name="password"
             tabindex="2"
             autocomplete="on"
@@ -46,6 +46,25 @@
         </el-form-item>
       </el-tooltip>
 
+      <div class="captcha-container">
+        <el-form-item prop="captcha" class="captcha-input">
+          <span class="svg-container">
+            <svg-icon icon-class="captcha" />
+          </span>
+          <el-input
+            v-model="loginForm.captcha"
+            placeholder="请输入验证码"
+            name="captcha"
+            type="text"
+            tabindex="1"
+            autocomplete="off"
+          />
+        </el-form-item>
+        <div v-loading="captchaLoading" class="captcha" @click="handleCaptchaClick">
+          <img :src="captchaImage">
+        </div>
+      </div>
+
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
     </el-form>
   </div>
@@ -53,6 +72,7 @@
 
 <script>
 import defaultSettings from '@/settings'
+import { captcha } from '@/api/admin-ser'
 
 export default {
   name: 'Login',
@@ -66,13 +86,24 @@ export default {
     }
     return {
       defaultSettings,
+      captchaLoading: false,
+      captchaImage: '',
       loginForm: {
-        username: 'admin',
-        password: '123456'
+        username: '',
+        password: '',
+        key: '',
+        captcha: ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur' }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { validator: validatePassword }
+        ],
+        captcha: [
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { min: 4, max: 4, message: '验证码必须为 4 个数字值', trigger: 'blur' }
+        ]
       },
       passwordType: 'password',
       capsTooltip: false,
@@ -93,6 +124,9 @@ export default {
       immediate: true
     }
   },
+  created() {
+    this.getCaptcha()
+  },
   mounted() {
     if (this.loginForm.username === '') {
       this.$refs.username.focus()
@@ -101,6 +135,18 @@ export default {
     }
   },
   methods: {
+    getCaptcha() {
+      this.captchaLoading = true
+      captcha().then(response => {
+        const { key, captcha } = response.data
+        this.loginForm.key = key
+        this.captchaImage = captcha
+        this.captchaLoading = false
+      })
+    },
+    handleCaptchaClick() {
+      this.getCaptcha()
+    },
     checkCapslock(e) {
       const { key } = e
       this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
@@ -119,6 +165,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
+          this.loginForm.username = this.loginForm.username.trim()
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
@@ -258,6 +305,28 @@ $light_gray:#eee;
   @media only screen and (max-width: 470px) {
     .thirdparty-button {
       display: none;
+    }
+  }
+
+  .captcha-container{
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+
+    .captcha-input{
+      width: 300px
+    }
+
+    .captcha{
+      border: 0;
+      margin-left: 10px;
+      width:  150px;
+      height: 48px;
+      cursor: pointer;
+
+      img{
+        border-radius: 5px;
+      }
     }
   }
 }

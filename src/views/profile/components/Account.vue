@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { updateUsername, updatePassword } from '@/api/adminUser'
+import { updateUsername, updatePassword } from '@/api/admin-ser'
 
 export default {
   props: {
