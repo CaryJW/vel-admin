@@ -65,8 +65,8 @@ const actions = {
         commit('SET_ROUTES', accessedRoutes)
 
         resolve(accessedRoutes)
-      }).catch(error => {
-        reject(error)
+      }).catch(() => {
+        reject([])
       })
     })
   }

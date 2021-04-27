@@ -1,6 +1,5 @@
 import router from './router'
 import store from './store'
-import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
@@ -16,6 +15,8 @@ router.beforeEach(async(to, from, next) => {
 
   // 设置页面标题
   document.title = getPageTitle(to.meta.title)
+
+  await store.dispatch('app/toggleRefresh', true)
 
   // 确认用户是否已经登录
   const hasToken = getToken()
@@ -47,8 +48,8 @@ router.beforeEach(async(to, from, next) => {
         } catch (error) {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')
-          Message.error(error || 'Has Error')
           next(`/login?redirect=${to.path}`)
+
           NProgress.done()
         }
       }
@@ -65,6 +66,8 @@ router.beforeEach(async(to, from, next) => {
       NProgress.done()
     }
   }
+
+  await store.dispatch('app/toggleRefresh', false)
 })
 
 router.afterEach(() => {

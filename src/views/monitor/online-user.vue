@@ -57,7 +57,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="{row}">
-          <el-link icon="el-icon-switch-button" @click="handleKickout(row.userId)">踢出</el-link>
+          <el-link v-if="row.status === constants.ACTIVE_USER_STATUS_ONLINE" icon="el-icon-switch-button" @click="handleKickout(row.userId)">踢出</el-link>
         </template>
       </el-table-column>
     </el-table>

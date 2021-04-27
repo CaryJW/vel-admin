@@ -21,7 +21,7 @@ service.interceptors.request.use(
   },
   error => {
     // do something with request error
-    console.log(error) // for debug
+    console.log('request error', error) // for debug
     return Promise.reject(error)
   }
 )
@@ -44,7 +44,7 @@ service.interceptors.response.use(
         duration: 5 * 1000
       })
 
-      if (res.code === 40000) {
+      if (res.code === 40000 && !store.getters.isRefresh) {
         // to re-login
         MessageBox.confirm('登录已过期，你可以停留在当前页面，或者重新登录', '确认登录', {
           confirmButtonText: '重新登录',
@@ -56,13 +56,15 @@ service.interceptors.response.use(
           })
         })
       }
+
       return Promise.reject(new Error(res.message || 'Error'))
     } else {
       return res
     }
   },
   error => {
-    console.log('err' + error) // for debug
+    // 请求相应错误
+    console.log('response error', error) // for debug
     Message({
       message: error.message,
       type: 'error',

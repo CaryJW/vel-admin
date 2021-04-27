@@ -62,7 +62,7 @@
               </el-form-item>
             </template>
             <el-form-item label="排序" prop="sort">
-              <el-input v-model="formData.sort" placeholder="请输入排序" />
+              <el-input v-model.number="formData.sort" placeholder="请输入排序" />
             </el-form-item>
           </el-form>
           <div style="text-align:right;">
@@ -257,6 +257,7 @@ export default {
 
             this.$refs.perm.resetFields()
             this.getTreeData()
+            this.$store.dispatch('user/changeRoles')
           }).catch(() => {
             this.submitLoading = false
           })
