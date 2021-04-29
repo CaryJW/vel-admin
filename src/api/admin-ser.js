@@ -57,7 +57,7 @@ export function updateAdminUser(data) {
 
 export function updatePassword(data) {
   return request({
-    url: '/admin-user/updatePassword',
+    url: '/admin-user/update-password',
     method: 'post',
     data: qs.stringify(data)
   })
@@ -65,7 +65,15 @@ export function updatePassword(data) {
 
 export function updateUsername(data) {
   return request({
-    url: '/admin-user/updateUsername',
+    url: '/admin-user/update-username',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+export function updateAvatar(data) {
+  return request({
+    url: '/admin-user/update-avatar',
     method: 'post',
     data: qs.stringify(data)
   })

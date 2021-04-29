@@ -29,6 +29,9 @@ const mutations = {
   },
   SET_HAS_GET_USERINFO: (state, flag) => {
     state.hasGetUserInfo = flag
+  },
+  SET_AVATAR: (state, url) => {
+    state.info.avatar = url
   }
 }
 
@@ -102,6 +105,11 @@ const actions = {
   // update username
   updateUsername({ commit }, username) {
     commit('SET_USERNAME', username)
+  },
+
+  // update username
+  updateAvatar({ commit }, url) {
+    commit('SET_AVATAR', url)
   },
 
   // 动态修改权限

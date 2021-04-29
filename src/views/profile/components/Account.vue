@@ -52,6 +52,7 @@ export default {
       type: Object,
       default: () => {
         return {
+          id: 0,
           username: '',
           realname: '',
           avatar: '',

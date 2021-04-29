@@ -5,6 +5,8 @@ module.exports = {
 
   avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80',
 
+  uploadUrl: process.env.VUE_APP_BASE_API + '/file-operation/upload',
+
   /**
    * @type {boolean} true | false
    * @description 是否现实右侧设置

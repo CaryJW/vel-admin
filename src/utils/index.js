@@ -380,3 +380,21 @@ export function objArrToMap(arr, key, value) {
   })
   return map
 }
+
+/**
+ * 判断文件是否是图片类型
+ * @param file
+ * @returns {boolean|string}
+ */
+export function isImage(file) {
+  const type = file.type
+  return type === 'image/jpg' || type === 'image/jpeg' || type === 'image/png' || type === 'image/gif'
+}
+
+/**
+ * 获取文件大小 mb
+ * @param file
+ */
+export function fileSize(file) {
+  return file.size / 1024 / 1024
+}

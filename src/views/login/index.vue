@@ -58,6 +58,7 @@
             type="text"
             tabindex="1"
             autocomplete="off"
+            @keyup.enter.native="handleLogin"
           />
         </el-form-item>
         <div v-loading="captchaLoading" class="captcha" @click="handleCaptchaClick">

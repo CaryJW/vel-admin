@@ -41,7 +41,7 @@ export default {
   border-radius: 50%;
   display: inline-block;
   position: relative;
-  cursor: default;
+  cursor: pointer;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
