@@ -41,7 +41,7 @@
             <el-form-item label="权限标识" prop="perms">
               <el-input v-model="formData.perms" placeholder="请输入权限标识" />
             </el-form-item>
-            <el-form-item label="类型">
+            <el-form-item label="类型" prop="type">
               <el-radio-group v-model="formData.type">
                 <el-radio :label="constants.MENU_NAVBAR">菜单</el-radio>
                 <el-radio :label="constants.MENU_BUTTON">按钮</el-radio>
@@ -188,8 +188,9 @@ export default {
     },
     handleNodeClick(data) {
       this.type = 'update'
-      copyProperties(data, this.formData)
-
+      this.$nextTick(() => {
+        copyProperties(data, this.formData)
+      })
       this.closeMenu()
     },
     handleCreateMenu(data) {
@@ -200,6 +201,7 @@ export default {
       } else {
         this.formData.pid = data.id
       }
+      console.log(this.formData)
     },
     handleDeleteMenu(id) {
       this.$confirm('确认删除？', 'Warning', {
