@@ -56,7 +56,7 @@
             placeholder="请输入验证码"
             name="captcha"
             type="text"
-            tabindex="1"
+            tabindex="3"
             autocomplete="off"
             @keyup.enter.native="handleLogin"
           />
@@ -290,7 +290,6 @@ $light_gray:#eee;
   }
 
   .show-pwd {
-    position: absolute;
     right: 10px;
     font-size: 16px;
     color: $dark_gray;
