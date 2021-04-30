@@ -119,7 +119,7 @@ const asyncRoutes = [
     children: [
       {
         path: 'index',
-        component: 'views/icons/index',
+        component: 'views/Icons/index',
         name: 'Icons',
         meta: { title: 'Icons', icon: 'icon', noCache: true }
       }

@@ -15,7 +15,6 @@
             :data="treeData"
             :props="defaultProps"
             :filter-node-method="filterNode"
-            default-expand-all
             node-key="perms"
             @node-contextmenu="handleNodeContextMenu"
             @node-click="handleNodeClick"
@@ -52,7 +51,7 @@
                 <el-input v-model="formData.title" placeholder="请输入菜单名称" />
               </el-form-item>
               <el-form-item label="icon" prop="icon">
-                <el-input v-model="formData.icon" placeholder="请输入icon" />
+                <el-input v-model="formData.icon" readonly placeholder="请输入icon" @focus="dialogVisible = true" />
               </el-form-item>
               <el-form-item label="url路径" prop="path">
                 <el-input v-model="formData.path" placeholder="url路径" />
@@ -76,6 +75,10 @@
       <li @click="handleCreateMenu(selectedNode)">添加</li>
       <li @click="handleDeleteMenu(selectedNode.id)">删除</li>
     </ul>
+
+    <el-dialog :visible.sync="dialogVisible" title="图标">
+      <icons :original="true" @click="handleIconClick" />
+    </el-dialog>
   </div>
 </template>
 
@@ -84,9 +87,11 @@ import { getTree } from '@/api/permission'
 import constants from '@/libs/constants'
 import { copyProperties } from '@/utils'
 import { add, update, del } from '@/api/permission'
+import Icons from '@/components/Icons'
 
 export default {
   name: 'Menu',
+  components: { Icons },
   data() {
     const validateCheckTitle = (rule, value, callback) => {
       if (this.formData.type === constants.MENU_NAVBAR && value === '') {
@@ -130,7 +135,8 @@ export default {
         title: [{ validator: validateCheckTitle, trigger: 'blur' }],
         sort: [{ type: 'number', message: '排序必须为数字值', trigger: 'blur' }]
       },
-      submitLoading: false
+      submitLoading: false,
+      dialogVisible: false
     }
   },
   watch: {
@@ -264,6 +270,10 @@ export default {
           })
         }
       })
+    },
+    handleIconClick(value, event) {
+      this.formData.icon = value
+      this.dialogVisible = false
     }
   }
 }
