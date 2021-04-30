@@ -28,7 +28,12 @@ export function paresRoutes(routes) {
       if (route.component === 'Layout') {
         tmp.component = Layout
       } else {
-        tmp.component = _import(route.component)
+        try {
+          tmp.component = _import(route.component)
+        } catch (e) {
+          console.log('Error:' + e) // debug
+          tmp.component = () => import('@/views/error-page/404')
+        }
       }
     }
 
@@ -65,7 +70,8 @@ const actions = {
         commit('SET_ROUTES', accessedRoutes)
 
         resolve(accessedRoutes)
-      }).catch(() => {
+      }).catch(error => {
+        console.log('Error:' + error) // debug
         reject([])
       })
     })

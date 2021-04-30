@@ -201,7 +201,6 @@ export default {
       } else {
         this.formData.pid = data.id
       }
-      console.log(this.formData)
     },
     handleDeleteMenu(id) {
       this.$confirm('确认删除？', 'Warning', {
