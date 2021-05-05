@@ -33,6 +33,11 @@
         <el-col :span="2">
           <el-button icon="el-icon-refresh" round @click="handleRefresh" />
         </el-col>
+
+        <el-col :span="2">
+          <add-task />
+        </el-col>
+
       </el-row>
     </div>
 
@@ -112,10 +117,11 @@ import Pagination from '@/components/Pagination'
 import { fetchList, del } from '@/api/sys-log'
 import constants from '@/libs/constants'
 import { objToSelectArr } from '@/utils'
+import AddTask from '@/components/AddTask'
 
 export default {
   name: 'SysLog',
-  components: { Pagination },
+  components: { Pagination, AddTask },
   directives: { waves },
   filters: {
     typeFilter(type) {

@@ -15,12 +15,13 @@
 
         <error-log class="errLog-container right-menu-item hover-effect" />
 
+        <task-center class="right-menu-item hover-effect" />
+
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
         <el-tooltip content="全局大小" effect="dark" placement="bottom">
           <size-select id="size-select" class="right-menu-item hover-effect" />
         </el-tooltip>
-
       </template>
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
@@ -49,6 +50,7 @@ import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
+import TaskCenter from '@/components/TaskCenter'
 
 export default {
   components: {
@@ -56,6 +58,7 @@ export default {
     Hamburger,
     ErrorLog,
     Screenfull,
+    TaskCenter,
     SizeSelect,
     Search
   },
@@ -80,14 +83,14 @@ export default {
 
 <style lang="scss" scoped>
 .navbar {
-  height: 50px;
-  overflow: hidden;
+  height: 60px;
+  //overflow: hidden;
   position: relative;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
 
   .hamburger-container {
-    line-height: 46px;
+    line-height: 56px;
     height: 100%;
     float: left;
     cursor: pointer;
@@ -111,7 +114,7 @@ export default {
   .right-menu {
     float: right;
     height: 100%;
-    line-height: 50px;
+    line-height: 60px;
 
     &:focus {
       outline: none;
@@ -119,7 +122,7 @@ export default {
 
     .right-menu-item {
       display: inline-block;
-      padding: 0 8px;
+      padding: 0 10px;
       height: 100%;
       font-size: 18px;
       color: #5a5e66;
