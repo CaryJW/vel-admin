@@ -1,14 +1,17 @@
 <template>
-  <transition
-    name="task"
-    @after-leave="afterLeave"
-  >
-    <div v-if="show" :style="{'--translateX': translateX + 'px','--translateY':translateY + 'px'}">
-      <el-button round @click="handleClick">
-        <svg-icon icon-class="export" />
-      </el-button>
-    </div>
-  </transition>
+  <div class="add-task-container">
+    <el-button round @click="handleClick">
+      <svg-icon icon-class="export" />
+    </el-button>
+    <transition
+      name="task"
+      @after-enter="afterEnter"
+    >
+      <div v-if="show" class="icon" :style="{'--translateX': translateX + 'px','--translateY':translateY + 'px'}">
+        <svg-icon icon-class="aircraft" />
+      </div>
+    </transition>
+  </div>
 </template>
 
 <script>
@@ -17,39 +20,38 @@ export default {
   name: 'AddTask',
   data() {
     return {
-      show: true,
-      translateX: 0,
-      translateY: 0
+      show: false,
+      translateX: 200,
+      translateY: -200
     }
   },
   methods: {
-    handleClick() {
+    handleClick(e) {
       const taskCenterX = document.getElementById('task-center').getBoundingClientRect().left
       const taskCenterY = document.getElementById('task-center').getBoundingClientRect().top
-      const addTaskX = this.$el.getBoundingClientRect().left
-      const addTaskY = this.$el.getBoundingClientRect().top
-      this.translateX = taskCenterX - addTaskX + 500
-      this.translateY = taskCenterY - addTaskY - 300
-      this.show = false
-    },
-    afterLeave() {
+
+      this.translateX = taskCenterX - e.clientX + 45
+      this.translateY = taskCenterY - e.clientY
       this.show = true
+    },
+    afterEnter() {
+      this.show = false
     }
   }
 }
 </script>
 
-<style lang="scss">
-@keyframes bounce-in {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(0) translateX(var(--translateX)) translateY(var(--translateY));
-  }
-}
-
+<style lang="scss" scoped>
 .task-leave-active {
-  animation: bounce-in linear 1s;
+  transition: all .8s linear;
+}
+.task-leave-to {
+  transform: translate(var(--translateX),var(--translateY));
+  opacity: 0;
+}
+.add-task-container{
+  .icon{
+    position: absolute;
+  }
 }
 </style>
