@@ -14,3 +14,12 @@ export function del(id) {
     method: 'get'
   })
 }
+
+export function excelExport(query) {
+  return request({
+    url: '/log/export',
+    method: 'get',
+    params: query,
+    responseType: 'blob'
+  })
+}

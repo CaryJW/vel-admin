@@ -2,6 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
+import { fileDownload } from '@/utils'
 
 // create an axios instance
 const service = axios.create({
@@ -37,29 +38,50 @@ service.interceptors.response.use(
       res = eval('(' + res + ')')
     }
 
-    if (res.code !== 20000) {
-      Message({
-        message: res.message || 'Error',
-        type: 'error',
-        duration: 5 * 1000
-      })
-
-      if (res.code === 40000 && !store.getters.isRefresh) {
-        // to re-login
-        MessageBox.confirm('登录已过期，你可以停留在当前页面，或者重新登录', '确认登录', {
-          confirmButtonText: '重新登录',
-          cancelButtonText: '返回',
-          type: 'warning'
-        }).then(() => {
-          store.dispatch('user/resetToken').then(() => {
-            location.reload()
+    if (Object.prototype.toString.call(res).includes('Blob')) { // 文件下载
+      if (res.type && res.type === 'application/json') {
+        const reader = new FileReader()
+        reader.onload = e => {
+          res = JSON.parse(e.target.result)
+          Message({
+            message: res.message || 'Error',
+            type: 'error',
+            duration: 5 * 1000
           })
-        })
-      }
+        }
+        reader.readAsText(res, 'UTF-8')
 
-      return Promise.reject(new Error(res.message || 'Error'))
+        return Promise.reject(new Error('文件下载错误'))
+      } else {
+        // 如果是下载
+        fileDownload(response)
+        return res
+      }
     } else {
-      return res
+      if (res.code !== 20000) {
+        Message({
+          message: res.message || 'Error',
+          type: 'error',
+          duration: 5 * 1000
+        })
+
+        if (res.code === 40000 && !store.getters.isRefresh) {
+          // to re-login
+          MessageBox.confirm('登录已过期，你可以停留在当前页面，或者重新登录', '确认登录', {
+            confirmButtonText: '重新登录',
+            cancelButtonText: '返回',
+            type: 'warning'
+          }).then(() => {
+            store.dispatch('user/resetToken').then(() => {
+              location.reload()
+            })
+          })
+        }
+
+        return Promise.reject(new Error(res.message || 'Error'))
+      } else {
+        return res
+      }
     }
   },
   error => {

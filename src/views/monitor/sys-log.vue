@@ -35,7 +35,7 @@
         </el-col>
 
         <el-col :span="2">
-          <add-task />
+          <el-button round @click="handleExport"><svg-icon icon-class="export" /></el-button>
         </el-col>
 
       </el-row>
@@ -114,14 +114,13 @@
 <script>
 import waves from '@/directive/waves'
 import Pagination from '@/components/Pagination'
-import { fetchList, del } from '@/api/sys-log'
+import { fetchList, del, excelExport } from '@/api/sys-log'
 import constants from '@/libs/constants'
 import { objToSelectArr } from '@/utils'
-import AddTask from '@/components/AddTask'
 
 export default {
   name: 'SysLog',
-  components: { Pagination, AddTask },
+  components: { Pagination },
   directives: { waves },
   filters: {
     typeFilter(type) {
@@ -216,6 +215,9 @@ export default {
           this.getList()
         })
       })
+    },
+    handleExport() {
+      excelExport(this.listQuery).then()
     }
   }
 }

@@ -15,8 +15,6 @@
 
         <error-log class="errLog-container right-menu-item hover-effect" />
 
-        <task-center class="right-menu-item hover-effect" />
-
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
         <el-tooltip content="全局大小" effect="dark" placement="bottom">
@@ -50,7 +48,6 @@ import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
-import TaskCenter from '@/components/TaskCenter'
 
 export default {
   components: {
@@ -58,7 +55,6 @@ export default {
     Hamburger,
     ErrorLog,
     Screenfull,
-    TaskCenter,
     SizeSelect,
     Search
   },

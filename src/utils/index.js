@@ -398,3 +398,17 @@ export function isImage(file) {
 export function fileSize(file) {
   return file.size / 1024 / 1024
 }
+
+/**
+ * 文件下载
+ * @param res
+ */
+export function fileDownload(res) {
+  const fileName = res.headers['content-disposition'].split('=')[1]
+  console.log(decodeURI(fileName))
+  const objectUrl = URL.createObjectURL(new Blob([res.data]))
+  const link = document.createElement('a')
+  link.download = decodeURI(fileName)
+  link.href = objectUrl
+  link.click()
+}
