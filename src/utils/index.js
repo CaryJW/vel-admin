@@ -294,7 +294,7 @@ export function deepClone(source) {
  */
 export function copyProperties(source, target, ...ignoreProperties) {
   Object.keys(target).forEach(key => {
-    if (!ignoreProperties.includes(key) && target[key] !== 'undefined') {
+    if (!ignoreProperties.includes(key) && source[key] !== undefined) {
       target[key] = source[key]
     }
   })
