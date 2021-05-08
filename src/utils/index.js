@@ -295,7 +295,11 @@ export function deepClone(source) {
 export function copyProperties(source, target, ...ignoreProperties) {
   Object.keys(target).forEach(key => {
     if (!ignoreProperties.includes(key) && source[key] !== undefined) {
-      target[key] = source[key]
+      if (typeof source[key] === 'object') { // 进行深拷贝
+        target[key] = deepClone(source[key])
+      } else {
+        target[key] = source[key]
+      }
     }
   })
 }
