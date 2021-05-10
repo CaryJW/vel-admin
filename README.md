@@ -4,12 +4,11 @@
 
 基于`vue-element-admin v4.4.0`整理出自用的模板
 
+### mock
+所有`api`数据使用mock数据
+>vel-admin/mock
+
 ### 运行
-首先运行 `vel` 后台api服务，确保接口正常使用
-
-api服务地址配置
-> .env.环境.PROXY
-
 安装依赖
 > npm run i
 
