@@ -147,6 +147,9 @@ export default {
               type: 'success',
               duration: 2000
             })
+
+            this.$store.dispatch('user/logout')
+            this.$router.push(`/login?redirect=${this.$route.fullPath}`)
           })
         }
       })

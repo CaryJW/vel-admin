@@ -7,6 +7,860 @@ const tokens = {
     token: 'user-token'
   }
 }
+const users = {
+  'admin-token': {
+    user: {
+      'id': 1,
+      'username': 'admin',
+      'realname': '江大大',
+      'avatar': 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80',
+      'status': 0,
+      'password': 'e10adc3949ba59abbe56e057f20f883e',
+      'loginTime': '2021-05-10 15:23:27',
+      'createTime': '2021-04-20 15:46:11',
+      'updateTime': '2021-04-27 16:11:43',
+      'roles': null
+    },
+    permissionInfo: {
+      'roles': [
+        '超级管理员'
+      ],
+      'stringPermissions': [
+        'sys-log:delete',
+        'other_back-to-top',
+        'other_clipboard',
+        'role:update',
+        'sys_admin-user',
+        'monitor_online-user',
+        'other_icons',
+        'sys-log:export',
+        'monitor_sys-log',
+        'role:add',
+        'sys_role',
+        'online-user:list',
+        'login-log:list',
+        'other_excel_merge-header',
+        'menu:update',
+        'other_count-to',
+        'other_upload-excel',
+        'role:list',
+        '_monitor',
+        'menu:delete',
+        'online-user:kickout',
+        'admin-user:add',
+        'other_tinymce',
+        '_sys',
+        'admin-user:list',
+        'admin-user:update',
+        'sys-log:list',
+        'menu:add',
+        'other_excel_export',
+        'sys_menu',
+        'other_excel',
+        'password:update',
+        'login-log:delete',
+        'other_zip',
+        'monitor_login-log',
+        '_other'
+      ],
+      'objectPermissions': null
+    }
+  },
+  'user-token': {
+    user: {
+      'id': 2,
+      'username': 'user',
+      'realname': '盛大大',
+      'avatar': 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+      'status': 0,
+      'password': 'e10adc3949ba59abbe56e057f20f883e',
+      'loginTime': '2021-05-10 15:39:41',
+      'createTime': '2021-04-21 17:03:48',
+      'updateTime': '2021-04-27 16:10:04',
+      'roles': null
+    },
+    permissionInfo: {
+      'roles': [
+        '管理员'
+      ],
+      'stringPermissions': [
+        'sys-log:list',
+        'sys-log:delete',
+        'monitor_online-user',
+        'sys-log:export',
+        '_monitor',
+        'monitor_sys-log',
+        'online-user:list',
+        'monitor_login-log',
+        'login-log:list'
+      ],
+      'objectPermissions': null
+    }
+  }
+}
+
+const menus = {
+  'admin-token': {
+    tree: [
+      {
+        'id': 1,
+        'pid': 0,
+        'icon': 'el-icon-setting',
+        'name': '系统管理',
+        'title': '系统管理',
+        'component': 'Layout',
+        'path': '/sys',
+        'perms': '_sys',
+        'type': 0,
+        'sort': 0,
+        'createTime': '2021-04-26 15:47:21',
+        'updateTime': '2021-04-27 14:04:54',
+        'children': [
+          {
+            'id': 10,
+            'pid': 1,
+            'icon': '',
+            'name': '菜单管理',
+            'title': '菜单管理',
+            'component': '/sys/menu',
+            'path': 'menu',
+            'perms': 'sys_menu',
+            'type': 0,
+            'sort': 0,
+            'createTime': '2021-04-26 17:25:18',
+            'updateTime': '2021-04-27 14:04:31',
+            'children': [
+              {
+                'id': 24,
+                'pid': 10,
+                'icon': '',
+                'name': '新增',
+                'title': '菜单管理',
+                'component': '/sys/menu',
+                'path': 'menu',
+                'perms': 'menu:add',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-27 03:39:09',
+                'updateTime': '2021-05-10 10:42:17',
+                'children': [
+
+                ]
+              },
+              {
+                'id': 25,
+                'pid': 10,
+                'icon': '',
+                'name': '编辑',
+                'title': '菜单管理',
+                'component': '/sys/menu',
+                'path': 'menu',
+                'perms': 'menu:update',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-27 03:39:23',
+                'updateTime': '2021-05-10 10:42:19',
+                'children': [
+
+                ]
+              },
+              {
+                'id': 26,
+                'pid': 10,
+                'icon': '',
+                'name': '删除',
+                'title': '菜单管理',
+                'component': '/sys/menu',
+                'path': 'menu',
+                'perms': 'menu:delete',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-27 03:39:49',
+                'updateTime': '2021-05-10 10:42:21',
+                'children': [
+
+                ]
+              }
+            ]
+          },
+          {
+            'id': 2,
+            'pid': 1,
+            'icon': '',
+            'name': '管理员用户',
+            'title': '管理员用户',
+            'component': '/sys/admin-user',
+            'path': 'admin-user',
+            'perms': 'sys_admin-user',
+            'type': 0,
+            'sort': 1,
+            'createTime': '2021-04-26 15:49:01',
+            'updateTime': '2021-04-27 14:05:42',
+            'children': [
+              {
+                'id': 6,
+                'pid': 2,
+                'icon': '',
+                'name': '列表',
+                'title': '',
+                'component': '',
+                'path': '',
+                'perms': 'admin-user:list',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-26 15:52:47',
+                'updateTime': '2021-05-10 10:41:48',
+                'children': [
+
+                ]
+              },
+              {
+                'id': 7,
+                'pid': 2,
+                'icon': '',
+                'name': '新增',
+                'title': '',
+                'component': '',
+                'path': '',
+                'perms': 'admin-user:add',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-26 15:53:03',
+                'updateTime': '2021-05-10 10:41:53',
+                'children': [
+
+                ]
+              },
+              {
+                'id': 8,
+                'pid': 2,
+                'icon': '',
+                'name': '编辑',
+                'title': '',
+                'component': '',
+                'path': '',
+                'perms': 'admin-user:update',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-26 15:53:43',
+                'updateTime': '2021-05-10 10:41:55',
+                'children': [
+
+                ]
+              },
+              {
+                'id': 9,
+                'pid': 2,
+                'icon': '',
+                'name': '修改密码',
+                'title': '',
+                'component': '',
+                'path': '',
+                'perms': 'password:update',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-26 15:54:35',
+                'updateTime': '2021-05-10 10:42:01',
+                'children': [
+
+                ]
+              }
+            ]
+          },
+          {
+            'id': 17,
+            'pid': 1,
+            'icon': '',
+            'name': '角色权限',
+            'title': '角色权限',
+            'component': '/sys/role',
+            'path': 'role',
+            'perms': 'sys_role',
+            'type': 0,
+            'sort': 2,
+            'createTime': '2021-04-27 00:40:13',
+            'updateTime': '2021-04-27 14:05:53',
+            'children': [
+              {
+                'id': 18,
+                'pid': 17,
+                'icon': '',
+                'name': '列表',
+                'title': '',
+                'component': '',
+                'path': '',
+                'perms': 'role:list',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-27 00:41:16',
+                'updateTime': '2021-05-10 10:42:07',
+                'children': [
+
+                ]
+              },
+              {
+                'id': 19,
+                'pid': 17,
+                'icon': '',
+                'name': '新增',
+                'title': '',
+                'component': '',
+                'path': '',
+                'perms': 'role:add',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-27 00:42:53',
+                'updateTime': '2021-05-10 10:42:09',
+                'children': [
+
+                ]
+              },
+              {
+                'id': 20,
+                'pid': 17,
+                'icon': '',
+                'name': '编辑',
+                'title': '',
+                'component': '',
+                'path': '',
+                'perms': 'role:update',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-27 00:43:16',
+                'updateTime': '2021-05-10 10:42:13',
+                'children': [
+
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        'id': 4,
+        'pid': 0,
+        'icon': 'el-icon-sunrise',
+        'name': '系统监控',
+        'title': '系统监控',
+        'component': 'Layout',
+        'path': '/monitor',
+        'perms': '_monitor',
+        'type': 0,
+        'sort': 1,
+        'createTime': '2021-04-26 15:49:55',
+        'updateTime': '2021-04-27 14:05:01',
+        'children': [
+          {
+            'id': 22,
+            'pid': 4,
+            'icon': '',
+            'name': '系统日志',
+            'title': '系统日志',
+            'component': '/monitor/sys-log',
+            'path': 'sys-log',
+            'perms': 'monitor_sys-log',
+            'type': 0,
+            'sort': 0,
+            'createTime': '2021-04-27 00:49:19',
+            'updateTime': '2021-04-27 14:06:11',
+            'children': [
+              {
+                'id': 28,
+                'pid': 22,
+                'icon': '',
+                'name': '列表',
+                'title': '登录日志',
+                'component': '/monitor/login-log',
+                'path': 'login-log',
+                'perms': 'sys-log:list',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-27 03:43:01',
+                'updateTime': '2021-05-10 10:41:14',
+                'children': [
+
+                ]
+              },
+              {
+                'id': 29,
+                'pid': 22,
+                'icon': '',
+                'name': '删除',
+                'title': '登录日志',
+                'component': '/monitor/login-log',
+                'path': 'login-log',
+                'perms': 'sys-log:delete',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-27 03:43:29',
+                'updateTime': '2021-05-10 10:42:32',
+                'children': [
+
+                ]
+              },
+              {
+                'id': 46,
+                'pid': 22,
+                'icon': '',
+                'name': '导出',
+                'title': '系统日志',
+                'component': '/monitor/sys-log',
+                'path': 'sys-log',
+                'perms': 'sys-log:export',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-05-07 12:27:00',
+                'updateTime': '2021-05-10 10:42:53',
+                'children': [
+
+                ]
+              }
+            ]
+          },
+          {
+            'id': 5,
+            'pid': 4,
+            'icon': '',
+            'name': '登录日志',
+            'title': '登录日志',
+            'component': '/monitor/login-log',
+            'path': 'login-log',
+            'perms': 'monitor_login-log',
+            'type': 0,
+            'sort': 1,
+            'createTime': '2021-04-26 15:50:46',
+            'updateTime': '2021-04-27 14:06:17',
+            'children': [
+              {
+                'id': 30,
+                'pid': 5,
+                'icon': '',
+                'name': '列表',
+                'title': '登录日志',
+                'component': '/monitor/login-log',
+                'path': 'login-log',
+                'perms': 'login-log:list',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-27 03:45:00',
+                'updateTime': '2021-05-10 10:42:36',
+                'children': [
+
+                ]
+              },
+              {
+                'id': 31,
+                'pid': 5,
+                'icon': '',
+                'name': '删除',
+                'title': '登录日志',
+                'component': '/monitor/login-log',
+                'path': 'login-log',
+                'perms': 'login-log:delete',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-27 03:45:13',
+                'updateTime': '2021-05-10 10:42:38',
+                'children': [
+
+                ]
+              }
+            ]
+          },
+          {
+            'id': 21,
+            'pid': 4,
+            'icon': '',
+            'name': '在线用户',
+            'title': '在线用户',
+            'component': '/monitor/online-user',
+            'path': 'online-user',
+            'perms': 'monitor_online-user',
+            'type': 0,
+            'sort': 2,
+            'createTime': '2021-04-27 00:48:46',
+            'updateTime': '2021-04-27 14:06:22',
+            'children': [
+              {
+                'id': 32,
+                'pid': 21,
+                'icon': '',
+                'name': '列表',
+                'title': '在线用户',
+                'component': '/monitor/online-user',
+                'path': 'online-user',
+                'perms': 'online-user:list',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-27 03:45:55',
+                'updateTime': '2021-05-10 10:42:40',
+                'children': [
+
+                ]
+              },
+              {
+                'id': 33,
+                'pid': 21,
+                'icon': '',
+                'name': '踢出用户',
+                'title': '在线用户',
+                'component': '/monitor/online-user',
+                'path': 'online-user',
+                'perms': 'online-user:kickout',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-27 03:46:09',
+                'updateTime': '2021-05-10 10:42:43',
+                'children': [
+
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        'id': 34,
+        'pid': 0,
+        'icon': 'el-icon-guide',
+        'name': '其他模块',
+        'title': '其他模块',
+        'component': 'Layout',
+        'path': '/other',
+        'perms': '_other',
+        'type': 0,
+        'sort': 3,
+        'createTime': '2021-04-27 16:44:19',
+        'updateTime': '2021-04-27 16:44:19',
+        'children': [
+          {
+            'id': 35,
+            'pid': 34,
+            'icon': '',
+            'name': '富文本',
+            'title': '富文本',
+            'component': '/other/tinymce',
+            'path': 'tinymce',
+            'perms': 'other_tinymce',
+            'type': 0,
+            'sort': 0,
+            'createTime': '2021-04-29 23:49:57',
+            'updateTime': '2021-04-29 23:50:13',
+            'children': [
+
+            ]
+          },
+          {
+            'id': 36,
+            'pid': 34,
+            'icon': '',
+            'name': '返回顶部',
+            'title': '返回顶部',
+            'component': '/other/back-to-top',
+            'path': 'back-to-top',
+            'perms': 'other_back-to-top',
+            'type': 0,
+            'sort': 1,
+            'createTime': '2021-04-30 11:13:06',
+            'updateTime': '2021-04-30 11:48:26',
+            'children': [
+
+            ]
+          },
+          {
+            'id': 37,
+            'pid': 34,
+            'icon': '',
+            'name': '数字滑动',
+            'title': '数字滑动',
+            'component': '/other/count-to',
+            'path': 'count-to',
+            'perms': 'other_count-to',
+            'type': 0,
+            'sort': 2,
+            'createTime': '2021-04-30 11:48:22',
+            'updateTime': '2021-04-30 11:48:22',
+            'children': [
+
+            ]
+          },
+          {
+            'id': 38,
+            'pid': 34,
+            'icon': '',
+            'name': '图标',
+            'title': '图标',
+            'component': '/other/icons',
+            'path': 'icon',
+            'perms': 'other_icons',
+            'type': 0,
+            'sort': 3,
+            'createTime': '2021-04-30 13:09:47',
+            'updateTime': '2021-04-30 14:27:03',
+            'children': [
+
+            ]
+          },
+          {
+            'id': 39,
+            'pid': 34,
+            'icon': '',
+            'name': '复制',
+            'title': '复制',
+            'component': '/other/clipboard',
+            'path': 'clipboard',
+            'perms': 'other_clipboard',
+            'type': 0,
+            'sort': 4,
+            'createTime': '2021-04-30 15:10:56',
+            'updateTime': '2021-04-30 15:10:56',
+            'children': [
+
+            ]
+          },
+          {
+            'id': 40,
+            'pid': 34,
+            'icon': 'excel',
+            'name': 'Excel',
+            'title': 'Excel',
+            'component': '/other/excel/index',
+            'path': 'excel',
+            'perms': 'other_excel',
+            'type': 0,
+            'sort': 5,
+            'createTime': '2021-04-30 15:33:30',
+            'updateTime': '2021-04-30 15:54:02',
+            'children': [
+              {
+                'id': 41,
+                'pid': 40,
+                'icon': '',
+                'name': '导出 Excel',
+                'title': '导出 Excel',
+                'component': '/other/excel/export-excel',
+                'path': 'export',
+                'perms': 'other_excel_export',
+                'type': 0,
+                'sort': 0,
+                'createTime': '2021-04-30 15:35:10',
+                'updateTime': '2021-04-30 15:35:10',
+                'children': [
+
+                ]
+              },
+              {
+                'id': 45,
+                'pid': 40,
+                'icon': '',
+                'name': '上传 Excel',
+                'title': '上传 Excel',
+                'component': '/other/excel/upload-excel',
+                'path': 'upload-excel',
+                'perms': 'other_upload-excel',
+                'type': 0,
+                'sort': 0,
+                'createTime': '2021-04-30 17:56:02',
+                'updateTime': '2021-04-30 17:56:02',
+                'children': [
+
+                ]
+              },
+              {
+                'id': 43,
+                'pid': 40,
+                'icon': '',
+                'name': '导出 多级表头',
+                'title': '导出 多级表头',
+                'component': '/other/excel/merge-header',
+                'path': 'merge-header',
+                'perms': 'other_excel_merge-header',
+                'type': 0,
+                'sort': 1,
+                'createTime': '2021-04-30 17:31:17',
+                'updateTime': '2021-04-30 17:54:37',
+                'children': [
+
+                ]
+              }
+            ]
+          },
+          {
+            'id': 44,
+            'pid': 34,
+            'icon': 'zip',
+            'name': 'Zip',
+            'title': 'Zip',
+            'component': '/other/zip',
+            'path': 'zip',
+            'perms': 'other_zip',
+            'type': 0,
+            'sort': 6,
+            'createTime': '2021-04-30 17:47:53',
+            'updateTime': '2021-04-30 17:47:53',
+            'children': [
+
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  'user-token': {
+    tree: [
+      {
+        'id': 4,
+        'pid': 0,
+        'icon': 'el-icon-sunrise',
+        'name': '系统监控',
+        'title': '系统监控',
+        'component': 'Layout',
+        'path': '/monitor',
+        'perms': '_monitor',
+        'type': 0,
+        'sort': 1,
+        'createTime': '2021-04-26 15:49:55',
+        'updateTime': '2021-04-27 14:05:01',
+        'children': [
+          {
+            'id': 22,
+            'pid': 4,
+            'icon': '',
+            'name': '系统日志',
+            'title': '系统日志',
+            'component': '/monitor/sys-log',
+            'path': 'sys-log',
+            'perms': 'monitor_sys-log',
+            'type': 0,
+            'sort': 0,
+            'createTime': '2021-04-27 00:49:19',
+            'updateTime': '2021-04-27 14:06:11',
+            'children': [
+              {
+                'id': 28,
+                'pid': 22,
+                'icon': '',
+                'name': '列表',
+                'title': '登录日志',
+                'component': '/monitor/login-log',
+                'path': 'login-log',
+                'perms': 'sys-log:list',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-27 03:43:01',
+                'updateTime': '2021-05-10 10:41:14',
+                'children': [
+
+                ]
+              },
+              {
+                'id': 29,
+                'pid': 22,
+                'icon': '',
+                'name': '删除',
+                'title': '登录日志',
+                'component': '/monitor/login-log',
+                'path': 'login-log',
+                'perms': 'sys-log:delete',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-27 03:43:29',
+                'updateTime': '2021-05-10 10:42:32',
+                'children': [
+
+                ]
+              },
+              {
+                'id': 46,
+                'pid': 22,
+                'icon': '',
+                'name': '导出',
+                'title': '系统日志',
+                'component': '/monitor/sys-log',
+                'path': 'sys-log',
+                'perms': 'sys-log:export',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-05-07 12:27:00',
+                'updateTime': '2021-05-10 10:42:53',
+                'children': [
+
+                ]
+              }
+            ]
+          },
+          {
+            'id': 5,
+            'pid': 4,
+            'icon': '',
+            'name': '登录日志',
+            'title': '登录日志',
+            'component': '/monitor/login-log',
+            'path': 'login-log',
+            'perms': 'monitor_login-log',
+            'type': 0,
+            'sort': 1,
+            'createTime': '2021-04-26 15:50:46',
+            'updateTime': '2021-04-27 14:06:17',
+            'children': [
+              {
+                'id': 30,
+                'pid': 5,
+                'icon': '',
+                'name': '列表',
+                'title': '登录日志',
+                'component': '/monitor/login-log',
+                'path': 'login-log',
+                'perms': 'login-log:list',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-27 03:45:00',
+                'updateTime': '2021-05-10 10:42:36',
+                'children': [
+
+                ]
+              }
+            ]
+          },
+          {
+            'id': 21,
+            'pid': 4,
+            'icon': '',
+            'name': '在线用户',
+            'title': '在线用户',
+            'component': '/monitor/online-user',
+            'path': 'online-user',
+            'perms': 'monitor_online-user',
+            'type': 0,
+            'sort': 2,
+            'createTime': '2021-04-27 00:48:46',
+            'updateTime': '2021-04-27 14:06:22',
+            'children': [
+              {
+                'id': 32,
+                'pid': 21,
+                'icon': '',
+                'name': '列表',
+                'title': '在线用户',
+                'component': '/monitor/online-user',
+                'path': 'online-user',
+                'perms': 'online-user:list',
+                'type': 1,
+                'sort': 0,
+                'createTime': '2021-04-27 03:45:55',
+                'updateTime': '2021-05-10 10:42:40',
+                'children': [
+
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+
 module.exports = [
   // captcha
   {
@@ -41,34 +895,92 @@ module.exports = [
 
       return {
         code: 20000,
-        data: {
-          token: token
-        },
+        data: token,
         message: 'success'
+      }
+    }
+  },
+
+  // get user info
+  {
+    url: '/current-user-info',
+    type: 'get',
+    response: config => {
+      const { authorization } = config.headers
+      const info = users[authorization]
+
+      // mock error
+      if (!authorization) {
+        return {
+          code: 40001,
+          message: 'Login failed, unable to get user details.'
+        }
+      }
+
+      return {
+        code: 20000,
+        data: info
+      }
+    }
+  },
+
+  // get user menus
+  {
+    url: '/permission/current-user',
+    type: 'get',
+    response: config => {
+      const { authorization } = config.headers
+      const info = menus[authorization]
+
+      // mock error
+      if (!authorization) {
+        return {
+          code: 40001,
+          message: 'Login failed, unable to get user details.'
+        }
+      }
+
+      return {
+        code: 20000,
+        data: info
+      }
+    }
+  },
+
+  // user logout
+  {
+    url: '/logout',
+    type: 'get',
+    response: _ => {
+      return {
+        code: 20000,
+        data: 'success'
+      }
+    }
+  },
+
+  // update username
+  {
+    url: '/admin-user/update-username',
+    type: 'post',
+    response: _ => {
+      return {
+        code: 20000,
+        data: 'success'
+      }
+    }
+  },
+
+  // update password
+  {
+    url: '/admin-user/update-password',
+    type: 'post',
+    response: _ => {
+      return {
+        code: 20000,
+        data: 'success'
       }
     }
   }
 
-  // get user info
-  // {
-  //   url: '/current-user-info',
-  //   type: 'get',
-  //   response: config => {
-  //     // const { token } = config.query
-  //     // const info = users[token]
-  //
-  //     // mock error
-  //     if (!info) {
-  //       return {
-  //         code: 50008,
-  //         message: 'Login failed, unable to get user details.'
-  //       }
-  //     }
-  //
-  //     return {
-  //       code: 20000,
-  //       data: info
-  //     }
-  //   }
-  // },
 ]
