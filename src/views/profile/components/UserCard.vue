@@ -35,7 +35,7 @@ import PanThumb from '@/components/PanThumb'
 import defaultSettings from '@/settings.js'
 import { isImage, fileSize } from '@/utils'
 import { getToken } from '@/utils/auth'
-import { updateAvatar } from '@/api/admin-ser'
+import { updateAvatar } from '@/api/admin-user'
 
 export default {
   components: { PanThumb },

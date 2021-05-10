@@ -73,7 +73,7 @@
 
 <script>
 import defaultSettings from '@/settings'
-import { captcha } from '@/api/admin-ser'
+import { captcha } from '@/api/admin-user'
 
 export default {
   name: 'Login',

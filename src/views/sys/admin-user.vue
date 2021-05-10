@@ -180,7 +180,7 @@
 <script>
 import waves from '@/directive/waves'
 import Pagination from '@/components/Pagination'
-import { fetchList, addAdminUser, updateAdminUser, updatePassword } from '@/api/admin-ser'
+import { fetchList, addAdminUser, updateAdminUser, updatePassword } from '@/api/admin-user'
 import { getRoleMap } from '@/api/role'
 import constants from '@/libs/constants'
 import { objToSelectArr, copyProperties } from '@/utils'

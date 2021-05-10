@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/admin-ser'
+import { login, logout, getInfo } from '@/api/admin-user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 import defaultSettings from '@/settings.js'

@@ -25,13 +25,7 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    proxy: {
-      '/admin-api': {
-        target: process.env.proxy,
-        changeOrigin: true,
-        secure: false
-      }
-    }
+    before: require('./mock/mock-server.js') // mock数据api
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
