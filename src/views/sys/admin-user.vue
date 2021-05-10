@@ -409,9 +409,17 @@ export default {
               type: 'success',
               duration: 2000
             })
+
+            if (this.updatePasswordData.id === this.$store.state.user.info.id) {
+              this.logout()
+            }
           })
         }
       })
+    },
+    async logout() {
+      await this.$store.dispatch('user/logout')
+      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
   }
 }

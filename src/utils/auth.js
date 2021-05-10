@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie'
+const defaultSettings = require('@/settings')
 
-const TokenKey = 'Admin-Token'
+const TokenKey = defaultSettings.tokenKey
 
 export function getToken() {
   return Cookies.get(TokenKey)

@@ -140,19 +140,14 @@ export default {
           this.upData.id = this.userInfo.id
           updatePassword(this.upData).then(() => {
             this.submitLoading = false
-
-            this.$notify({
-              title: 'Success',
-              message: '更新成功',
-              type: 'success',
-              duration: 2000
-            })
-
-            this.$store.dispatch('user/logout')
-            this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+            this.logout()
           })
         }
       })
+    },
+    async logout() {
+      await this.$store.dispatch('user/logout')
+      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
   }
 }

@@ -7,6 +7,8 @@ module.exports = {
 
   uploadUrl: process.env.VUE_APP_BASE_API + '/file-operation/upload',
 
+  tokenKey: 'vel-admin',
+
   /**
    * @type {boolean} true | false
    * @description 是否现实右侧设置
