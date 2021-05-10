@@ -25,7 +25,6 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    // before: require('./mock/mock-server.js') // mock数据api
     proxy: {
       '/admin-api': {
         target: process.env.proxy,
