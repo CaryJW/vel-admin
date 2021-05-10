@@ -273,7 +273,8 @@ export function debounce(func, wait, immediate) {
  */
 export function deepClone(source) {
   if (!source && typeof source !== 'object') {
-    throw new Error('error arguments', 'deepClone')
+    console.error(`deepClone() Error: error arguments ${source}`)
+    return
   }
   const targetObj = source.constructor === Array ? [] : {}
   Object.keys(source).forEach(keys => {
@@ -294,7 +295,7 @@ export function deepClone(source) {
  */
 export function copyProperties(source, target, ...ignoreProperties) {
   Object.keys(target).forEach(key => {
-    if (!ignoreProperties.includes(key) && source[key] !== undefined) {
+    if (!ignoreProperties.includes(key) && source[key] !== undefined && source[key] !== null) {
       if (typeof source[key] === 'object') { // 进行深拷贝
         target[key] = deepClone(source[key])
       } else {

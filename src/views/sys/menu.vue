@@ -204,6 +204,7 @@ export default {
       this.$refs.perm.resetFields()
       if (data === null) {
         this.formData.pid = 0
+        this.formData.component = 'Layout'
       } else {
         this.formData.pid = data.id
       }
