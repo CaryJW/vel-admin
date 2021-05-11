@@ -9,6 +9,9 @@ module.exports = {
 
   tokenKey: 'vel-admin',
 
+  // 打包输出目录
+  outputPath: './dist',
+
   /**
    * @type {boolean} true | false
    * @description 是否现实右侧设置
