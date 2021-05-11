@@ -1,6 +1,7 @@
 <template>
   <div :style="uploadStyle">
     <el-upload
+      :disabled="disabled"
       :action="defaultSettings.uploadUrl"
       :headers="headers"
       list-type="picture-card"
@@ -13,11 +14,13 @@
       :on-exceed="handleExceed"
       :file-list="fileList"
     >
-      <i class="el-icon-plus" />
-      <div slot="tip" class="el-upload__tip">最多上传{{ limit }}张图片</div>
+      <template v-if="!readonly">
+        <i class="el-icon-plus" />
+        <div slot="tip" class="el-upload__tip">最多上传{{ limit }}张图片</div>
+      </template>
     </el-upload>
 
-    <el-dialog :visible.sync="dialogVisible">
+    <el-dialog :visible.sync="dialogVisible" :modal-append-to-body="false" :append-to-body="true">
       <img width="100%" :src="imageUrl" alt="">
     </el-dialog>
   </div>
@@ -31,6 +34,10 @@ import { fileSize, isImage } from '@/utils'
 export default {
   name: 'Upload',
   props: {
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     uploadStyle: {
       type: Object,
       default() {
@@ -46,6 +53,10 @@ export default {
     limit: {
       type: Number,
       default: 1
+    },
+    readonly: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -89,10 +100,11 @@ export default {
         this.$message.error(response.message)
         return
       }
-      const { url } = response.data
+      const { uploadResult } = response.data
       this.fileList.push({
         id: 0,
-        url: url
+        fileName: uploadResult.fileName,
+        url: uploadResult.url
       })
     },
     handleRemove(file) {

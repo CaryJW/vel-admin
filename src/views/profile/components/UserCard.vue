@@ -79,7 +79,8 @@ export default {
       return true
     },
     handleUploadSuccess(response) {
-      const { url } = response.data
+      const { uploadResult } = response.data
+      const url = uploadResult.url
       if (response.code !== 20000) {
         this.$message.error(response.message)
         return

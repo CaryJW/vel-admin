@@ -157,7 +157,8 @@ export default {
           progress(0)
           console.log(blobInfo.blob())
           upload(blobInfo.blob()).then(response => {
-            const { url } = response.data
+            const { uploadResult } = response.data
+            const url = uploadResult.url
             success(url)
             progress(100)
           }).catch(() => {
