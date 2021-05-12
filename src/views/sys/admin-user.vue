@@ -41,6 +41,15 @@
           <span>{{ row.id }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="头像" prop="avatarUrl" align="center">
+        <template slot-scope="{row}">
+          <el-image
+            style="width: 50px; height: 50px; border-radius: 5px"
+            :src="row.avatar"
+            :preview-src-list="[row.avatar]"
+          />
+        </template>
+      </el-table-column>
       <el-table-column label="用户名" prop="username" align="center">
         <template slot-scope="{row}">
           <span>{{ row.username }}</span>

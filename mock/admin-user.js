@@ -1013,6 +1013,17 @@ module.exports = [
   },
 
   {
+    url: '/admin-user/update-avatar',
+    type: 'post',
+    response: _ => {
+      return {
+        code: 20000,
+        message: 'success'
+      }
+    }
+  },
+
+  {
     url: '/admin-user/list',
     type: 'get',
     response: config => {
