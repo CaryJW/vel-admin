@@ -14,7 +14,7 @@
       :on-exceed="handleExceed"
       :file-list="fileList"
     >
-      <template v-if="!readonly">
+      <template v-if="!disabled">
         <i class="el-icon-plus" />
         <div slot="tip" class="el-upload__tip">最多上传{{ limit }}张图片</div>
       </template>
@@ -53,10 +53,6 @@ export default {
     limit: {
       type: Number,
       default: 1
-    },
-    readonly: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
