@@ -33,14 +33,14 @@ const tree = {
               'pid': 10,
               'icon': '',
               'name': '新增',
-              'title': '菜单管理',
-              'component': '/sys/menu',
-              'path': 'menu',
+              'title': '',
+              'component': '',
+              'path': '',
               'perms': 'menu:add',
               'type': 1,
               'sort': 0,
               'createTime': '2021-04-27 03:39:09',
-              'updateTime': '2021-05-10 10:42:17',
+              'updateTime': '2021-05-13 14:39:26',
               'children': [
 
               ]
@@ -50,14 +50,14 @@ const tree = {
               'pid': 10,
               'icon': '',
               'name': '编辑',
-              'title': '菜单管理',
-              'component': '/sys/menu',
-              'path': 'menu',
+              'title': '',
+              'component': '',
+              'path': '',
               'perms': 'menu:update',
               'type': 1,
               'sort': 0,
               'createTime': '2021-04-27 03:39:23',
-              'updateTime': '2021-05-10 10:42:19',
+              'updateTime': '2021-05-13 14:39:27',
               'children': [
 
               ]
@@ -67,14 +67,14 @@ const tree = {
               'pid': 10,
               'icon': '',
               'name': '删除',
-              'title': '菜单管理',
-              'component': '/sys/menu',
-              'path': 'menu',
+              'title': '',
+              'component': '',
+              'path': '',
               'perms': 'menu:delete',
               'type': 1,
               'sort': 0,
               'createTime': '2021-04-27 03:39:49',
-              'updateTime': '2021-05-10 10:42:21',
+              'updateTime': '2021-05-13 14:39:28',
               'children': [
 
               ]
@@ -93,7 +93,7 @@ const tree = {
           'type': 0,
           'sort': 1,
           'createTime': '2021-04-26 15:49:01',
-          'updateTime': '2021-04-27 14:05:42',
+          'updateTime': '2021-05-13 14:38:45',
           'children': [
             {
               'id': 6,
@@ -246,7 +246,7 @@ const tree = {
       'type': 0,
       'sort': 1,
       'createTime': '2021-04-26 15:49:55',
-      'updateTime': '2021-04-27 14:05:01',
+      'updateTime': '2021-05-13 14:38:51',
       'children': [
         {
           'id': 22,
@@ -267,14 +267,14 @@ const tree = {
               'pid': 22,
               'icon': '',
               'name': '列表',
-              'title': '登录日志',
-              'component': '/monitor/login-log',
-              'path': 'login-log',
+              'title': '',
+              'component': '',
+              'path': '',
               'perms': 'sys-log:list',
               'type': 1,
               'sort': 0,
               'createTime': '2021-04-27 03:43:01',
-              'updateTime': '2021-05-10 10:41:14',
+              'updateTime': '2021-05-13 14:39:28',
               'children': [
 
               ]
@@ -284,14 +284,14 @@ const tree = {
               'pid': 22,
               'icon': '',
               'name': '删除',
-              'title': '登录日志',
-              'component': '/monitor/login-log',
-              'path': 'login-log',
+              'title': '',
+              'component': '',
+              'path': '',
               'perms': 'sys-log:delete',
               'type': 1,
               'sort': 0,
               'createTime': '2021-04-27 03:43:29',
-              'updateTime': '2021-05-10 10:42:32',
+              'updateTime': '2021-05-13 14:39:28',
               'children': [
 
               ]
@@ -301,14 +301,14 @@ const tree = {
               'pid': 22,
               'icon': '',
               'name': '导出',
-              'title': '系统日志',
-              'component': '/monitor/sys-log',
-              'path': 'sys-log',
+              'title': '',
+              'component': '',
+              'path': '',
               'perms': 'sys-log:export',
               'type': 1,
               'sort': 0,
               'createTime': '2021-05-07 12:27:00',
-              'updateTime': '2021-05-10 10:42:53',
+              'updateTime': '2021-05-13 14:39:42',
               'children': [
 
               ]
@@ -327,21 +327,21 @@ const tree = {
           'type': 0,
           'sort': 1,
           'createTime': '2021-04-26 15:50:46',
-          'updateTime': '2021-04-27 14:06:17',
+          'updateTime': '2021-05-13 14:38:51',
           'children': [
             {
               'id': 30,
               'pid': 5,
               'icon': '',
               'name': '列表',
-              'title': '登录日志',
-              'component': '/monitor/login-log',
-              'path': 'login-log',
+              'title': '',
+              'component': '',
+              'path': '',
               'perms': 'login-log:list',
               'type': 1,
               'sort': 0,
               'createTime': '2021-04-27 03:45:00',
-              'updateTime': '2021-05-10 10:42:36',
+              'updateTime': '2021-05-13 14:39:29',
               'children': [
 
               ]
@@ -351,14 +351,14 @@ const tree = {
               'pid': 5,
               'icon': '',
               'name': '删除',
-              'title': '登录日志',
-              'component': '/monitor/login-log',
-              'path': 'login-log',
+              'title': '',
+              'component': '',
+              'path': '',
               'perms': 'login-log:delete',
               'type': 1,
               'sort': 0,
               'createTime': '2021-04-27 03:45:13',
-              'updateTime': '2021-05-10 10:42:38',
+              'updateTime': '2021-05-13 14:39:29',
               'children': [
 
               ]
@@ -384,14 +384,14 @@ const tree = {
               'pid': 21,
               'icon': '',
               'name': '列表',
-              'title': '在线用户',
-              'component': '/monitor/online-user',
-              'path': 'online-user',
+              'title': '',
+              'component': '',
+              'path': '',
               'perms': 'online-user:list',
               'type': 1,
               'sort': 0,
               'createTime': '2021-04-27 03:45:55',
-              'updateTime': '2021-05-10 10:42:40',
+              'updateTime': '2021-05-13 14:39:30',
               'children': [
 
               ]
@@ -401,14 +401,14 @@ const tree = {
               'pid': 21,
               'icon': '',
               'name': '踢出用户',
-              'title': '在线用户',
-              'component': '/monitor/online-user',
-              'path': 'online-user',
+              'title': '',
+              'component': '',
+              'path': '',
               'perms': 'online-user:kickout',
               'type': 1,
               'sort': 0,
               'createTime': '2021-04-27 03:46:09',
-              'updateTime': '2021-05-10 10:42:43',
+              'updateTime': '2021-05-13 14:39:31',
               'children': [
 
               ]
@@ -624,6 +624,25 @@ module.exports = [
     response: _ => {
       return {
         code: 20000,
+        data: {
+          permission: {
+            'id': 6,
+            'pid': 2,
+            'icon': '',
+            'name': '添加',
+            'title': '',
+            'component': '',
+            'path': '',
+            'perms': 'admin-user:list',
+            'type': 1,
+            'sort': 0,
+            'createTime': '2021-04-26 15:52:47',
+            'updateTime': '2021-05-10 10:41:48',
+            'children': [
+
+            ]
+          }
+        },
         message: 'success'
       }
     }

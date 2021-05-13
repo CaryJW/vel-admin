@@ -7,7 +7,7 @@ module.exports = {
 
   uploadUrl: process.env.VUE_APP_BASE_API + '/file-operation/upload',
 
-  tokenKey: 'vel-admin',
+  tokenKey: 'vel-mock',
 
   // 打包输出目录
   outputPath: './dist',

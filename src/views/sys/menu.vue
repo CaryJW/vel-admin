@@ -15,7 +15,7 @@
             :data="treeData"
             :props="defaultProps"
             :filter-node-method="filterNode"
-            node-key="perms"
+            node-key="id"
             @node-contextmenu="handleNodeContextMenu"
             @node-click="handleNodeClick"
           />
@@ -46,7 +46,7 @@
                 <el-radio :label="constants.MENU_BUTTON">按钮</el-radio>
               </el-radio-group>
             </el-form-item>
-            <template v-if="formData.type === constants.MENU_NAVBAR">
+            <div v-show="formData.type === constants.MENU_NAVBAR">
               <el-form-item label="菜单名称" prop="title">
                 <el-input v-model="formData.title" placeholder="请输入菜单名称" />
               </el-form-item>
@@ -59,7 +59,7 @@
               <el-form-item label="组件" prop="component">
                 <el-input v-model="formData.component" placeholder="请输入组件" />
               </el-form-item>
-            </template>
+            </div>
             <el-form-item label="排序" prop="sort">
               <el-input v-model.number="formData.sort" placeholder="请输入排序" />
             </el-form-item>
@@ -73,7 +73,7 @@
 
     <ul v-show="visible" :style="{left:left + 'px',top:top + 'px'}" class="contextmenu">
       <li @click="handleCreateMenu(selectedNode)">添加</li>
-      <li @click="handleDeleteMenu(selectedNode.id)">删除</li>
+      <li @click="handleDeleteMenu(selectedNode)">删除</li>
     </ul>
 
     <el-dialog :visible.sync="dialogVisible" title="图标">
@@ -85,7 +85,7 @@
 <script>
 import { getTree } from '@/api/permission'
 import constants from '@/libs/constants'
-import { copyProperties } from '@/utils'
+import { copyProperties, deepClone } from '@/utils'
 import { add, update, del } from '@/api/permission'
 import Icons from '@/components/Icons'
 
@@ -96,6 +96,22 @@ export default {
     const validateCheckTitle = (rule, value, callback) => {
       if (this.formData.type === constants.MENU_NAVBAR && value === '') {
         callback(new Error('菜单名称不能为空'))
+      } else {
+        callback()
+      }
+    }
+
+    const validatorPath = (rule, value, callback) => {
+      if (this.formData.type === constants.MENU_NAVBAR && value === '') {
+        callback(new Error('路径不能为空'))
+      } else {
+        callback()
+      }
+    }
+
+    const validatorComponent = (rule, value, callback) => {
+      if (this.formData.type === constants.MENU_NAVBAR && value === '') {
+        callback(new Error('组件不能为空'))
       } else {
         callback()
       }
@@ -129,8 +145,8 @@ export default {
       },
       rules: {
         name: [{ required: true, message: '页面名称不能为空', trigger: 'blur' }],
-        path: [{ required: true, message: '路径不能为空', trigger: 'blur' }],
-        component: [{ required: true, message: '组件不能为空', trigger: 'blur' }],
+        path: [{ validator: validatorPath, trigger: 'blur' }],
+        component: [{ validator: validatorComponent, trigger: 'blur' }],
         perms: [{ required: true, message: '权限标识不能为空', trigger: 'blur' }],
         title: [{ validator: validateCheckTitle, trigger: 'blur' }],
         sort: [{ type: 'number', message: '排序必须为数字值', trigger: 'blur' }]
@@ -209,13 +225,13 @@ export default {
         this.formData.pid = data.id
       }
     },
-    handleDeleteMenu(id) {
+    handleDeleteMenu(data) {
       this.$confirm('确认删除？', 'Warning', {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        del(id).then(() => {
+        del(data.id).then(() => {
           this.$notify({
             title: 'Success',
             message: '删除成功',
@@ -223,7 +239,7 @@ export default {
             duration: 2000
           })
 
-          this.getTreeData()
+          this.$refs.tree.remove(data.id)
         })
       })
     },
@@ -231,18 +247,18 @@ export default {
       this.$refs.perm.validate((valid) => {
         if (valid) {
           this.submitLoading = true
-          add(this.formData).then(() => {
-            this.submitLoading = false
-
+          add(this.formData).then(response => {
+            const { permission } = response.data
             this.$notify({
               title: 'Success',
               message: '新增成功',
               type: 'success',
               duration: 2000
             })
-
+            console.log('xxx')
+            this.$refs.tree.append(permission, permission.pid)
             this.$refs.perm.resetFields()
-            this.getTreeData()
+            this.submitLoading = false
           }).catch(() => {
             this.submitLoading = false
           })
@@ -254,18 +270,17 @@ export default {
         if (valid) {
           this.submitLoading = true
           update(this.formData).then(() => {
-            this.submitLoading = false
-
             this.$notify({
               title: 'Success',
               message: '编辑成功',
               type: 'success',
               duration: 2000
             })
-
+            const data = deepClone(this.formData)
+            this.updateNode(data, this.treeData)
             this.$refs.perm.resetFields()
-            this.getTreeData()
             this.$store.dispatch('user/changeRoles')
+            this.submitLoading = false
           }).catch(() => {
             this.submitLoading = false
           })
@@ -275,6 +290,18 @@ export default {
     handleIconClick(value, event) {
       this.formData.icon = value
       this.dialogVisible = false
+    },
+    updateNode(newData, treeData) {
+      if (treeData.length === 0) {
+        return
+      }
+      for (let i = 0; i < treeData.length; i++) {
+        if (treeData[i].id === newData.id) {
+          copyProperties(newData, treeData[i])
+          break
+        }
+        this.updateNode(newData, treeData[i].children)
+      }
     }
   }
 }
