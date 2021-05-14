@@ -67,6 +67,19 @@
       </div>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+
+      <div style="position:relative">
+        <div class="tips">
+          <span>用户名 : admin</span>
+          <span>密码 : any</span>
+          <span>验证码 : any four number</span>
+        </div>
+        <div class="tips">
+          <span>用户名 : user</span>
+          <span>密码 : any</span>
+          <span>验证码 : any four number</span>
+        </div>
+      </div>
     </el-form>
   </div>
 </template>
@@ -237,6 +250,16 @@ $cursor: #fff;
     background: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     color: #454545;
+  }
+
+  .tips {
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 10px;
+
+    span {
+      margin-right: 16px;
+    }
   }
 }
 </style>
