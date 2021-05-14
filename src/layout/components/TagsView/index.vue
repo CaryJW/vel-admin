@@ -17,10 +17,10 @@
       </router-link>
     </scroll-pane>
     <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
-      <li @click="refreshSelectedTag(selectedTag)">刷新标签</li>
-      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">关闭标签</li>
-      <li @click="closeOthersTags">关闭其他标签</li>
-      <li @click="closeAllTags(selectedTag)">关闭所有标签</li>
+      <li @click="refreshSelectedTag(selectedTag)">{{ $t('tagsView.refresh') }}</li>
+      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">{{ $t('tagsView.close') }}</li>
+      <li @click="closeOthersTags">{{ $t('tagsView.closeOthers') }}</li>
+      <li @click="closeAllTags(selectedTag)">{{ $t('tagsView.closeAll') }}</li>
     </ul>
   </div>
 </template>
