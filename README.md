@@ -14,7 +14,7 @@
 * [java 接口](https://gitee.com/flyxiaozhu/vel)
 * [php 接口](https://gitee.com/flyxiaozhu/vel-yii2)
 * 如果使用mock数据，移动到mock分支
-* 如果使用i18n，一定到i18n分支
+* 如果使用i18n，移动到i18n分支
 * master分支代码是最新版本
 
 运行环境配置
